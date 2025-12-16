@@ -32,7 +32,7 @@ export function readJsonFile<T>(file: File): Promise<T> {
         } else {
           reject(new Error('Failed to read file as text'));
         }
-      } catch (error) {
+      } catch {
         reject(new Error('Invalid JSON file'));
       }
     };

@@ -39,7 +39,7 @@ export default function RunPage() {
       }
       
       await setTemplate(data);
-    } catch (error) {
+    } catch {
       alert(t('runPage.messages.failedToReadTemplate'));
     }
   }, [setTemplate, t]);
@@ -58,7 +58,7 @@ export default function RunPage() {
       const filename = `result_${participantName.replace(/\s+/g, '_')}.json`;
       downloadJson(result, filename);
       alert(t('runPage.messages.resultExported'));
-    } catch (error) {
+    } catch {
       alert(t('runPage.messages.failedToExport'));
     }
   };

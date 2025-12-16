@@ -40,15 +40,18 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
   // Initialize placements when entering preview mode
   useEffect(() => {
     if (mode === 'preview') {
-      const initial: CardPlacement = {};
       const cardList = study.settings.randomizeCardOrder 
         ? [...cards].sort(() => Math.random() - 0.5)
         : cards;
+      const initial: CardPlacement = {};
       cardList.forEach(card => {
         initial[card.id] = null;
       });
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPlacements(initial);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStartTime(new Date());
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMovesCount(0);
     }
   }, [mode, cards, study.settings.randomizeCardOrder]);

@@ -1,0 +1,35 @@
+{
+  "study": {
+    "title": "StudyTitle",
+    "description": "",
+    "sortType": "closed"
+  },
+  "participant": {
+    "name": "ABC",
+    "completedAt": "2025-12-16T16:41:14.573Z",
+    "durationMinutes": 0.2
+  },
+  "results": {
+    "New": [
+      "Button",
+      "Sea"
+    ],
+    "Existing": [
+      "Santa",
+      "Water"
+    ],
+    "OLD": [
+      "AIR"
+    ]
+  },
+  "unsure": [
+    "Grass"
+  ],
+  "unsorted": [],
+  "meta": {
+    "totalCards": 6,
+    "totalCategories": 3,
+    "movesCount": 6,
+    "timezone": "Asia/Bangkok"
+  }
+}

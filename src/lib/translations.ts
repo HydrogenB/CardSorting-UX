@@ -624,10 +624,10 @@ export const translations: Record<Language, Translations> = {
 
 export function getTranslation(language: Language, key: string): string {
   const keys = key.split('.');
-  let value: any = translations[language];
+  let value: unknown = translations[language];
   
   for (const k of keys) {
-    value = value?.[k];
+    value = (value as Record<string, unknown>)?.[k];
   }
   
   if (typeof value === 'string') {
@@ -635,9 +635,9 @@ export function getTranslation(language: Language, key: string): string {
   }
   
   // Fallback to English if key not found
-  let fallback: any = translations.en;
+  let fallback: unknown = translations.en;
   for (const k of keys) {
-    fallback = fallback?.[k];
+    fallback = (fallback as Record<string, unknown>)?.[k];
   }
   
   return typeof fallback === 'string' ? fallback : key;
