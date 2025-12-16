@@ -1,4 +1,4 @@
-export type { Language, Translations };
+export type Language = 'en' | 'th';
 
 export interface Translations {
   common: {
@@ -568,6 +568,13 @@ export const translations: Record<Language, Translations> = {
     },
     studioPage: {
       title: 'สตูดิโอพรีวิว',
+      hideSidebar: 'ซ่อนแถบด้านข้าง',
+      showSidebar: 'แสดงแถบด้านข้าง',
+      untitledStudy: 'การศึกษาที่ไม่มีชื่อ',
+      categories: 'หมวดหมู่',
+      cards: 'การ์ด',
+      backToEdit: 'กลับไปแก้ไข',
+      startCardSorting: 'เริ่มจัดการ์ด',
       preview: {
         title: 'พรีวิวบอร์ดจัดการ์ด',
         description: 'กำหนดค่าการศึกษาในแผงด้านซ้าย จากนั้นคลิก "เริ่มการศึกษา" เพื่อเริ่มเซสชันการจัดการ์ด',
@@ -580,6 +587,17 @@ export const translations: Record<Language, Translations> = {
         description: 'ดาวน์โหลดผลลัพธ์การศึกษาเป็นไฟล์ JSON เพื่อการวิเคราะห์',
         filename: 'ชื่อไฟล์',
         download: 'ดาวน์โหลด',
+      },
+      messages: {
+        invalidTemplate: 'เทมเพลตไม่ถูกต้อง',
+        templateImported: 'นำเข้าเทมเพลตสำเร็จ',
+        loadedCardsAndCategories: 'โหลด {{cards}} การ์ดและ {{categories}} หมวดหมู่',
+        failedToReadTemplate: 'ไม่สามารถอ่านไฟล์เทมเพลตได้',
+        enterTitleBeforeExport: 'กรุณากรอกชื่อการศึกษาก่อนส่งออก',
+        addCardBeforeExport: 'กรุณาเพิ่มการ์ดอย่างน้อย 1 การ์ดก่อนส่งออก',
+        templateExported: 'ส่งออกเทมเพลตสำเร็จ',
+        addCardsBeforeStart: 'กรุณาเพิ่มการ์ดก่อนเริ่ม',
+        addCategoriesForClosed: 'กรุณาเพิ่มหมวดหมู่สำหรับการจัดกลุ่มแบบปิด/ผสม',
       },
     },
     validation: {
