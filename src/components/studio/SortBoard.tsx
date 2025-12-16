@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import {
   DndContext,
   DragOverlay,
-  pointerWithin,
+  closestCenter,
   PointerSensor,
   KeyboardSensor,
   useSensor,
@@ -57,7 +57,11 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
   }, [mode, cards, study.settings.randomizeCardOrder]);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(PointerSensor, { 
+      activationConstraint: { 
+        distance: 8,
+      } 
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -228,7 +232,7 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
       {/* Sort Board */}
       <DndContext
         sensors={sensors}
-        collisionDetection={pointerWithin}
+        collisionDetection={closestCenter}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >

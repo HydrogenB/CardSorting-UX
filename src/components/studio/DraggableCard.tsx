@@ -12,12 +12,12 @@ export function DraggableCard({ card }: DraggableCardProps) {
     id: card.id,
   });
 
-  const style = transform
-    ? { 
-        transform: `translate(${transform.x}px, ${transform.y}px)`,
-        zIndex: isDragging ? 50 : undefined,
-      }
-    : undefined;
+  const style: React.CSSProperties = {
+    transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined,
+    zIndex: isDragging ? 1000 : 1,
+    position: 'relative' as const,
+    touchAction: 'none',
+  };
 
   const hasImage = !!card.image;
 
@@ -29,8 +29,8 @@ export function DraggableCard({ card }: DraggableCardProps) {
         'group bg-background border rounded-lg overflow-hidden',
         'cursor-grab active:cursor-grabbing select-none',
         'hover:border-primary/50 hover:shadow-md',
-        'transition-all duration-200 ease-out',
-        isDragging && 'opacity-80 shadow-xl border-primary scale-105 z-50',
+        'transition-shadow duration-200 ease-out',
+        isDragging && 'opacity-90 shadow-2xl border-primary',
         !isDragging && 'border-border'
       )}
       {...attributes}

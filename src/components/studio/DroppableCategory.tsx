@@ -98,7 +98,9 @@ export function DroppableCategory({
         'flex-1 p-3 space-y-2 overflow-y-auto',
         count === 0 && 'flex items-center justify-center',
         isOver && 'bg-primary/5'
-      )}>
+      )}
+      style={{ position: 'relative', zIndex: 0 }}
+      >
         {count === 0 ? (
           <div className="text-center py-4">
             <Icon className={cn(
