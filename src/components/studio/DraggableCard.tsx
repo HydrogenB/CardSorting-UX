@@ -8,37 +8,53 @@ interface DraggableCardProps {
 }
 
 export function DraggableCard({ card }: DraggableCardProps) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: card.id,
   });
 
-  const style: React.CSSProperties = {
-    transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined,
-    zIndex: isDragging ? 1000 : 1,
-    position: 'relative' as const,
-    touchAction: 'none',
-  };
-
   const hasImage = !!card.image;
+
+  // Hide the original card while dragging - DragOverlay will show the moving card
+  if (isDragging) {
+    return (
+      <div
+        ref={setNodeRef}
+        className="opacity-40 border-2 border-dashed border-primary/50 rounded-lg bg-primary/5"
+        style={{ touchAction: 'none' }}
+      >
+        {hasImage ? (
+          <>
+            <div className="aspect-video" />
+            <div className="p-2">
+              <p className="text-xs font-medium truncate text-transparent">{card.label}</p>
+            </div>
+          </>
+        ) : (
+          <div className="p-3 flex items-center gap-2">
+            <div className="w-4 h-4" />
+            <p className="text-sm font-medium truncate text-transparent">{card.label}</p>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      style={{ touchAction: 'none' }}
       className={cn(
         'group bg-background border rounded-lg overflow-hidden',
         'cursor-grab active:cursor-grabbing select-none',
         'hover:border-primary/50 hover:shadow-md',
         'transition-shadow duration-200 ease-out',
-        isDragging && 'opacity-90 shadow-2xl border-primary',
-        !isDragging && 'border-border'
+        'border-border'
       )}
       {...attributes}
       {...listeners}
     >
       {hasImage ? (
         <>
-          {/* 16:9 Image */}
           <div className="relative aspect-video">
             <img 
               src={card.image} 

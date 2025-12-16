@@ -283,10 +283,33 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
           </div>
         </div>
 
-        <DragOverlay>
+        <DragOverlay dropAnimation={null}>
           {activeCard && (
-            <div className="p-3 bg-card border-2 border-primary rounded-lg shadow-lg">
-              {activeCard.label}
+            <div className="bg-background border-2 border-primary rounded-lg shadow-2xl overflow-hidden cursor-grabbing">
+              {activeCard.image ? (
+                <>
+                  <div className="relative aspect-video w-40">
+                    <img 
+                      src={activeCard.image} 
+                      alt={activeCard.label}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                  </div>
+                  <div className="p-2">
+                    <p className="text-xs font-medium truncate">{activeCard.label}</p>
+                  </div>
+                </>
+              ) : (
+                <div className="p-3 flex items-center gap-2">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium truncate">{activeCard.label}</p>
+                    {activeCard.description && (
+                      <p className="text-xs text-muted-foreground truncate">{activeCard.description}</p>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </DragOverlay>
