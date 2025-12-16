@@ -66,7 +66,7 @@ export default function StudioPage() {
         useBuilderStore.getState().updateCategory(lastCat.id, { label: cat.label, description: cat.description });
       });
       data.cards.forEach(card => {
-        useBuilderStore.getState().addCard(card.label, card.description);
+        useBuilderStore.getState().addCard(card.label, card.description, card.image);
       });
       
       addToast({

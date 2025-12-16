@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Language, translations, getTranslation } from '@/lib/translations';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
+import type { Language } from '@/lib/translations';
+import { getTranslation } from '@/lib/translations';
 
 interface I18nContextType {
   language: Language;
@@ -38,8 +40,8 @@ export function I18nProvider({ children, defaultLanguage = 'en' }: I18nProviderP
       localStorage.setItem('language', newLanguage);
       // Update document lang attribute
       document.documentElement.lang = newLanguage;
-      // Update document direction (Thai is LTR, but keeping for future RTL languages)
-      document.documentElement.dir = newLanguage === 'ar' ? 'rtl' : 'ltr';
+      // Update document direction (currently no RTL languages supported)
+      document.documentElement.dir = 'ltr';
     }
   };
 

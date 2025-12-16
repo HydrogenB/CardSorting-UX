@@ -14,7 +14,7 @@ interface BuilderState {
   updateCategory: (id: string, updates: Partial<Omit<Category, 'id'>>) => void;
   removeCategory: (id: string) => void;
   reorderCategories: (startIndex: number, endIndex: number) => void;
-  addCard: (label: string, description?: string) => void;
+  addCard: (label: string, description?: string, image?: string) => void;
   updateCard: (id: string, updates: Partial<Omit<Card, 'id'>>) => void;
   removeCard: (id: string) => void;
   reorderCards: (startIndex: number, endIndex: number) => void;
@@ -81,11 +81,11 @@ export const useBuilderStore = create<BuilderState>()(
           return { categories: result };
         }),
       
-      addCard: (label, description = '') =>
+      addCard: (label, description = '', image?: string) =>
         set((state) => ({
           cards: [
             ...state.cards,
-            { id: generateCardId(), label, description, meta: {} },
+            { id: generateCardId(), label, description, image, meta: {} },
           ],
         })),
       

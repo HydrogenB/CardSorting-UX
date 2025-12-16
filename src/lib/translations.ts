@@ -1,4 +1,4 @@
-export type Language = 'en' | 'th';
+export type { Language, Translations };
 
 export interface Translations {
   common: {
@@ -34,6 +34,8 @@ export interface Translations {
     dragToReorder: string;
     dropHere: string;
     unsavedChanges: string;
+    dataStaysOnDevice: string;
+    undo: string;
   };
   navigation: {
     home: string;
@@ -46,6 +48,16 @@ export interface Translations {
     subtitle: string;
     description: string;
     getStarted: string;
+    privacyFirst: string;
+    supportedTypes: string;
+    studyTypes: {
+      open: string;
+      openDesc: string;
+      closed: string;
+      closedDesc: string;
+      hybrid: string;
+      hybridDesc: string;
+    };
     features: {
       title: string;
       builder: {
@@ -64,6 +76,14 @@ export interface Translations {
   };
   builderPage: {
     title: string;
+    subtitle: string;
+    progress: {
+      title: string;
+      notSet: string;
+      type: string;
+      categories: string;
+      cards: string;
+    };
     studySettings: string;
     studyTitle: string;
     studyDescription: string;
@@ -95,10 +115,18 @@ export interface Translations {
       runStudy: string;
       exportTemplate: string;
       reset: string;
+      confirmReset: string;
     };
   };
   runPage: {
     title: string;
+    uploadDescription: string;
+    clickToUpload: string;
+    instructions: string;
+    nameAliasHint: string;
+    uploadDifferentTemplate: string;
+    sorted: string;
+    reviewAndExport: string;
     participantInfo: {
       title: string;
       nameLabel: string;
@@ -117,12 +145,22 @@ export interface Translations {
     messages: {
       enterName: string;
       invalidTemplate: string;
+      failedToReadTemplate: string;
+      resultExported: string;
+      failedToExport: string;
       pleaseSortAll: string;
       confirmReset: string;
     };
   };
   studioPage: {
     title: string;
+    hideSidebar: string;
+    showSidebar: string;
+    untitledStudy: string;
+    categories: string;
+    cards: string;
+    backToEdit: string;
+    startCardSorting: string;
     preview: {
       title: string;
       description: string;
@@ -135,6 +173,17 @@ export interface Translations {
       description: string;
       filename: string;
       download: string;
+    };
+    messages: {
+      invalidTemplate: string;
+      templateImported: string;
+      loadedCardsAndCategories: string;
+      failedToReadTemplate: string;
+      enterTitleBeforeExport: string;
+      addCardBeforeExport: string;
+      templateExported: string;
+      addCardsBeforeStart: string;
+      addCategoriesForClosed: string;
     };
   };
   validation: {
@@ -194,6 +243,7 @@ export const translations: Record<Language, Translations> = {
       dropHere: 'Drop cards here',
       unsavedChanges: 'You have unsaved changes',
       dataStaysOnDevice: 'All data stays on your device. No server, no tracking.',
+      undo: 'Undo',
     },
     navigation: {
       home: 'Home',
@@ -399,6 +449,7 @@ export const translations: Record<Language, Translations> = {
       dropHere: 'วางการ์ดที่นี่',
       unsavedChanges: 'มีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก',
       dataStaysOnDevice: 'ข้อมูลทั้งหมดจะถูกเก็บไว้บนอุปกรณ์ของคุณ ไม่มีเซิร์ฟเวอร์ ไม่มีการติดตาม',
+      undo: 'เลิกทำ',
     },
     navigation: {
       home: 'หน้าแรก',
