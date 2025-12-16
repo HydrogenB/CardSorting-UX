@@ -15,7 +15,7 @@ import { useBuilderStore } from '@/store/builderStore';
 import { downloadJson } from '@/lib/download';
 import { DroppableCategory } from './DroppableCategory';
 import { DraggableCard } from './DraggableCard';
-import { Download, RotateCcw, HelpCircle } from 'lucide-react';
+import { Download, RotateCcw } from 'lucide-react';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 
 interface SortBoardProps {
