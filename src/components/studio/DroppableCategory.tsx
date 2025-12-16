@@ -49,10 +49,10 @@ export function DroppableCategory({
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-3 flex items-center justify-between">
-            <span className="font-bold text-white text-sm drop-shadow-md">{title}</span>
+          <div className="absolute bottom-0 left-0 right-0 p-3 flex items-center justify-between gap-2">
+            <span className="font-bold text-white text-sm drop-shadow-md truncate">{title}</span>
             <span className={cn(
-              'text-xs font-bold px-2 py-1 rounded-full min-w-[24px] text-center',
+              'text-xs font-bold px-2 py-1 rounded-full min-w-[24px] text-center flex-shrink-0',
               'bg-white/90 text-gray-800',
               isOver && 'bg-primary text-primary-foreground'
             )}>
@@ -68,9 +68,9 @@ export function DroppableCategory({
           variant === 'default' && 'border-border/50 bg-muted/30',
           isOver && 'bg-primary/10 border-primary/30'
         )}>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 min-w-0">
             <div className={cn(
-              'w-6 h-6 rounded-md flex items-center justify-center',
+              'w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0',
               variant === 'unsure' && 'bg-amber-200 text-amber-700',
               variant === 'unsorted' && 'bg-slate-200 text-slate-600',
               variant === 'default' && 'bg-primary/10 text-primary',
@@ -78,10 +78,10 @@ export function DroppableCategory({
             )}>
               <Icon className="w-3.5 h-3.5" />
             </div>
-            <span className="font-semibold">{title}</span>
+            <span className="font-semibold truncate">{title}</span>
           </div>
           <span className={cn(
-            'text-xs font-bold px-2 py-1 rounded-full min-w-[24px] text-center',
+            'text-xs font-bold px-2 py-1 rounded-full min-w-[24px] text-center flex-shrink-0',
             variant === 'unsure' && 'bg-amber-200 text-amber-800',
             variant === 'unsorted' && 'bg-slate-200 text-slate-700',
             variant === 'default' && 'bg-primary/10 text-primary',

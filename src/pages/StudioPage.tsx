@@ -164,8 +164,8 @@ export default function StudioPage() {
         <div className="flex items-center gap-2">
           {mode === 'edit' ? (
             <>
-              <label className="px-3 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-all cursor-pointer flex items-center gap-2 hover:shadow-sm">
-                <Upload className="w-4 h-4" />
+              <label className="px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all cursor-pointer flex items-center gap-2 hover:shadow-sm">
+                <Upload className="w-3.5 h-3.5" />
                 {t('common.import')}
                 <input
                   type="file"
@@ -176,25 +176,26 @@ export default function StudioPage() {
               </label>
               <button
                 onClick={handleExport}
-                className="px-3 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-all flex items-center gap-2 hover:shadow-sm"
+                className="px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all flex items-center gap-2 hover:shadow-sm"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-3.5 h-3.5" />
                 {t('common.export')}
               </button>
+              <div className="h-6 w-px bg-border mx-1" />
               <button
                 onClick={handleStartPreview}
-                className="px-4 py-2 text-sm bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-lg hover:opacity-90 transition-all flex items-center gap-2 shadow-md hover:shadow-lg"
+                className="px-4 py-1.5 text-xs font-medium bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-all flex items-center gap-2 shadow-sm"
               >
-                <Play className="w-4 h-4" />
+                <Play className="w-3.5 h-3.5" />
                 {t('builderPage.actions.runStudy')}
               </button>
             </>
           ) : (
             <button
               onClick={handleExitPreview}
-              className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-all flex items-center gap-2"
+              className="px-4 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all flex items-center gap-2"
             >
-              <Settings2 className="w-4 h-4" />
+              <Settings2 className="w-3.5 h-3.5" />
               {t('studioPage.backToEdit')}
             </button>
           )}
@@ -205,16 +206,16 @@ export default function StudioPage() {
       <div className="flex-1 flex overflow-hidden">
         {/* Sidebar */}
         {sidebarOpen && mode === 'edit' && (
-          <aside className="w-80 border-r border-border bg-card overflow-y-auto">
+          <aside className="w-80 border-r border-border bg-card overflow-y-auto shrink-0 flex flex-col">
             <ConfigPanel />
           </aside>
         )}
 
         {/* Sort Board / Main Area */}
-        <main className="flex-1 overflow-auto p-4 bg-muted/30">
+        <main className="flex-1 overflow-hidden bg-muted/30 relative flex flex-col">
           <SortBoard 
             mode={mode} 
-            participantName={participantName}
+            participantName={mode === 'edit' ? 'Preview User' : participantName}
           />
         </main>
       </div>

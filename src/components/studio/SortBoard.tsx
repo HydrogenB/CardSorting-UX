@@ -174,38 +174,16 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
   const activeCard = cards.find(c => c.id === activeId);
 
   // Edit mode - show placeholder
+  /* 
+  // REMOVED: Replaced with Live Preview
   if (mode === 'edit') {
     return (
       <div className="h-full flex items-center justify-center">
-        <div className="text-center max-w-lg">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center shadow-lg">
-            <HelpCircle className="w-10 h-10 text-primary" />
-          </div>
-          <h2 className="text-2xl font-bold mb-3">Sort Board Preview</h2>
-          <p className="text-muted-foreground mb-6 leading-relaxed">
-            Configure your study in the left panel, then click <strong className="text-foreground">"Run Study"</strong> to start the card sorting session.
-          </p>
-          
-          <div className="grid grid-cols-2 gap-4 max-w-xs mx-auto">
-            <div className="p-4 rounded-xl bg-card border border-border">
-              <p className="text-3xl font-bold text-primary">{categories.length}</p>
-              <p className="text-xs text-muted-foreground mt-1">Categories</p>
-            </div>
-            <div className="p-4 rounded-xl bg-card border border-border">
-              <p className="text-3xl font-bold text-primary">{cards.length}</p>
-              <p className="text-xs text-muted-foreground mt-1">Cards</p>
-            </div>
-          </div>
-          
-          {cards.length === 0 && (
-            <p className="mt-6 text-sm text-amber-600 bg-amber-50 px-4 py-2 rounded-lg inline-block">
-              Add some cards to get started
-            </p>
-          )}
-        </div>
+        ...
       </div>
     );
   }
+  */
 
   // Preview/Run mode - show sort board
   return (
@@ -219,14 +197,16 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
           <RotateCcw className="w-4 h-4" />
           Reset
         </button>
-        <button
-          onClick={handleExportResult}
-          disabled={study.settings.requireAllCardsSorted && unsortedCards.length > 0}
-          className="px-4 py-2 text-sm bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:opacity-90 disabled:opacity-50 disabled:from-gray-400 disabled:to-gray-500 transition-all flex items-center gap-2 shadow-md"
-        >
-          <Download className="w-4 h-4" />
-          Export Result
-        </button>
+        {mode === 'preview' && (
+          <button
+            onClick={handleExportResult}
+            disabled={study.settings.requireAllCardsSorted && unsortedCards.length > 0}
+            className="px-4 py-2 text-sm bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:opacity-90 disabled:opacity-50 disabled:from-gray-400 disabled:to-gray-500 transition-all flex items-center gap-2 shadow-md"
+          >
+            <Download className="w-4 h-4" />
+            Export Result
+          </button>
+        )}
       </div>
 
       {/* Sort Board */}
@@ -238,7 +218,7 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
       >
         <div className="flex-1 grid grid-cols-[250px_1fr] gap-4 overflow-hidden">
           {/* Unsorted Pile */}
-          <div className="flex flex-col gap-4 overflow-y-auto">
+          <div className="flex flex-col gap-4 overflow-y-auto p-2">
             <DroppableCategory
               id="unsorted"
               title="Unsorted Cards"
@@ -252,7 +232,7 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
           </div>
 
           {/* Categories Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto content-start">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto content-start p-2">
             {categories.map(category => (
               <DroppableCategory
                 key={category.id}
