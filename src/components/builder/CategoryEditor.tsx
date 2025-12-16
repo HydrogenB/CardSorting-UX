@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -17,7 +17,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { useBuilderStore } from '@/store/builderStore';
 import type { Category } from '@/domain/model';
-import { GripVertical, Trash2, Plus } from 'lucide-react';
+import { GripVertical, Trash2, Plus, ImagePlus, X } from 'lucide-react';
 
 interface SortableItemProps {
   category: Category;
@@ -26,6 +26,7 @@ interface SortableItemProps {
 }
 
 function SortableItem({ category, onUpdate, onRemove }: SortableItemProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const {
     attributes,
     listeners,
@@ -39,6 +40,23 @@ function SortableItem({ category, onUpdate, onRemove }: SortableItemProps) {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64 = event.target?.result as string;
+      onUpdate(category.id, { image: base64 });
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  };
+
+  const handleRemoveImage = () => {
+    onUpdate(category.id, { image: undefined });
   };
 
   return (
@@ -55,6 +73,41 @@ function SortableItem({ category, onUpdate, onRemove }: SortableItemProps) {
       >
         <GripVertical className="w-4 h-4" />
       </button>
+      
+      {/* Image thumbnail or upload button */}
+      <div className="relative flex-shrink-0">
+        {category.image ? (
+          <div className="relative group/img">
+            <img 
+              src={category.image} 
+              alt={category.label}
+              className="w-10 h-10 rounded object-cover border border-border"
+            />
+            <button
+              type="button"
+              onClick={handleRemoveImage}
+              className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="w-10 h-10 rounded border-2 border-dashed border-border hover:border-primary flex items-center justify-center text-muted-foreground hover:text-primary transition-colors"
+          >
+            <ImagePlus className="w-4 h-4" />
+          </button>
+        )}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          className="hidden"
+        />
+      </div>
       
       <input
         type="text"

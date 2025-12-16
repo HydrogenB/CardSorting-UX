@@ -60,10 +60,7 @@ export default function StudioPage() {
       reset();
       setStudy(data.study);
       data.categories.forEach(cat => {
-        useBuilderStore.getState().addCategory(cat.label, cat.description);
-        const cats = useBuilderStore.getState().categories;
-        const lastCat = cats[cats.length - 1];
-        useBuilderStore.getState().updateCategory(lastCat.id, { label: cat.label, description: cat.description });
+        useBuilderStore.getState().addCategory(cat.label, cat.description, cat.image);
       });
       data.cards.forEach(card => {
         useBuilderStore.getState().addCard(card.label, card.description, card.image);

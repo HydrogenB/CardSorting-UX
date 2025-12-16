@@ -10,7 +10,7 @@ interface BuilderState {
   
   // Actions
   setStudy: (study: Partial<Study>) => void;
-  addCategory: (label: string, description?: string) => void;
+  addCategory: (label: string, description?: string, image?: string) => void;
   updateCategory: (id: string, updates: Partial<Omit<Category, 'id'>>) => void;
   removeCategory: (id: string) => void;
   reorderCategories: (startIndex: number, endIndex: number) => void;
@@ -53,11 +53,11 @@ export const useBuilderStore = create<BuilderState>()(
           study: { ...state.study, ...updates },
         })),
       
-      addCategory: (label, description = '') =>
+      addCategory: (label, description = '', image?: string) =>
         set((state) => ({
           categories: [
             ...state.categories,
-            { id: generateCategoryId(), label, description },
+            { id: generateCategoryId(), label, description, image },
           ],
         })),
       
