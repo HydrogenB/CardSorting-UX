@@ -3,6 +3,7 @@ import { readJsonFile, downloadJson } from '@/lib/download';
 import { validateTemplate } from '@/domain/schema';
 import type { StudyTemplate } from '@/domain/model';
 import { useCallback } from 'react';
+import { useI18n } from '@/contexts/i18n-context';
 
 export default function RunPage() {
   const {
@@ -21,6 +22,8 @@ export default function RunPage() {
     cardPlacements,
     undoStack,
   } = useRunStore();
+  
+  const { t } = useI18n();
 
   const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -31,19 +34,19 @@ export default function RunPage() {
       const validation = validateTemplate(data);
       
       if (!validation.success) {
-        alert('Invalid template:\n' + validation.error.issues.map((issue) => issue.message).join('\n'));
+        alert(t('runPage.messages.invalidTemplate') + '\n' + validation.error.issues.map((issue) => issue.message).join('\n'));
         return;
       }
       
       await setTemplate(data);
     } catch (error) {
-      alert('Failed to read template file');
+      alert(t('runPage.messages.failedToReadTemplate'));
     }
-  }, [setTemplate]);
+  }, [setTemplate, t]);
 
   const handleStartSession = () => {
     if (!participantName.trim()) {
-      alert('Please enter your name or alias');
+      alert(t('runPage.messages.enterName'));
       return;
     }
     startSession();
@@ -54,9 +57,9 @@ export default function RunPage() {
       const result = await generateResult();
       const filename = `result_${participantName.replace(/\s+/g, '_')}.json`;
       downloadJson(result, filename);
-      alert('Result exported successfully!');
+      alert(t('runPage.messages.resultExported'));
     } catch (error) {
-      alert('Failed to export result');
+      alert(t('runPage.messages.failedToExport'));
     }
   };
 
@@ -67,9 +70,9 @@ export default function RunPage() {
   if (step === 'upload') {
     return (
       <div className="max-w-xl mx-auto text-center py-16">
-        <h1 className="text-2xl font-bold mb-4">Run Card Sorting Study</h1>
+        <h1 className="text-2xl font-bold mb-4">{t('runPage.title')}</h1>
         <p className="text-muted-foreground mb-8">
-          Upload a template JSON file to begin the study.
+          {t('runPage.uploadDescription')}
         </p>
         
         <label className="block p-8 border-2 border-dashed border-border rounded-lg hover:border-primary cursor-pointer transition-colors">
@@ -80,7 +83,7 @@ export default function RunPage() {
             className="hidden"
           />
           <div className="text-4xl mb-2">📁</div>
-          <p className="text-muted-foreground">Click to upload template.json</p>
+          <p className="text-muted-foreground">{t('runPage.clickToUpload')}</p>
         </label>
       </div>
     );
@@ -94,22 +97,22 @@ export default function RunPage() {
         <p className="text-muted-foreground mb-6">{template?.study.description}</p>
         
         <div className="p-6 border border-border rounded-lg bg-card mb-6">
-          <h2 className="font-semibold mb-2">Instructions</h2>
+          <h2 className="font-semibold mb-2">{t('runPage.instructions')}</h2>
           <p className="text-sm text-muted-foreground">{template?.study.instructionsMarkdown}</p>
         </div>
         
         <div className="p-6 border border-border rounded-lg bg-card">
           <label className="block mb-4">
-            <span className="block text-sm font-medium mb-1">Your Name / Alias</span>
+            <span className="block text-sm font-medium mb-1">{t('runPage.participantInfo.nameLabel')}</span>
             <input
               type="text"
               value={participantName}
               onChange={(e) => setParticipantName(e.target.value)}
               className="w-full px-3 py-2 border border-input rounded-md bg-background"
-              placeholder="Enter a name or alias"
+              placeholder={t('runPage.participantInfo.namePlaceholder')}
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Use an alias if you prefer not to share your real name.
+              {t('runPage.nameAliasHint')}
             </p>
           </label>
           
@@ -118,7 +121,7 @@ export default function RunPage() {
             disabled={!participantName.trim()}
             className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 disabled:opacity-50 transition-opacity"
           >
-            Start Sorting
+            {t('runPage.participantInfo.startSession')}
           </button>
         </div>
         
@@ -126,7 +129,7 @@ export default function RunPage() {
           onClick={reset}
           className="mt-4 text-sm text-muted-foreground hover:text-foreground"
         >
-          ← Upload different template
+          ← {t('runPage.uploadDifferentTemplate')}
         </button>
       </div>
     );
@@ -140,21 +143,21 @@ export default function RunPage() {
           <h1 className="text-xl font-bold">{template?.study.title}</h1>
           <div className="flex items-center gap-4">
             <span className="text-sm text-muted-foreground">
-              {progress.sorted}/{progress.total} sorted
+              {progress.sorted}/{progress.total} {t('runPage.sorted')}
             </span>
             <button
               onClick={undo}
               disabled={undoStack.length === 0}
               className="px-3 py-1 text-sm border border-border rounded-md hover:bg-muted disabled:opacity-50 transition-colors"
             >
-              Undo
+              {t('common.undo')}
             </button>
             <button
               onClick={() => useRunStore.setState({ step: 'review' })}
               disabled={template?.study.settings.requireAllCardsSorted && unsortedCards.length > 0}
               className="px-4 py-1 text-sm bg-primary text-primary-foreground rounded-md hover:opacity-90 disabled:opacity-50 transition-opacity"
             >
-              Review & Export
+              {t('runPage.reviewAndExport')}
             </button>
           </div>
         </div>
@@ -162,7 +165,7 @@ export default function RunPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Unsorted pile */}
           <div className="p-4 border border-border rounded-lg bg-muted/50">
-            <h3 className="font-semibold mb-2">Unsorted ({unsortedCards.length})</h3>
+            <h3 className="font-semibold mb-2">{t('runPage.sorting.unsortedCards')} ({unsortedCards.length})</h3>
             <div className="space-y-2">
               {unsortedCards.map((cardId) => {
                 const card = template?.cards.find(c => c.id === cardId);

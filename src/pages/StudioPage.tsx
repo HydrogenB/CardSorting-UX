@@ -7,6 +7,7 @@ import { ConfigPanel } from '@/components/studio/ConfigPanel';
 import { SortBoard } from '@/components/studio/SortBoard';
 import { useToast } from '@/components/ui/toast';
 import { Badge } from '@/components/ui/badge';
+import { useI18n } from '@/contexts/i18n-context';
 import { 
   Upload, 
   Download, 
@@ -27,6 +28,7 @@ export default function StudioPage() {
   const [showParticipantModal, setShowParticipantModal] = useState(false);
   
   const { addToast } = useToast();
+  const { t } = useI18n();
   
   const { 
     study, 
@@ -48,7 +50,7 @@ export default function StudioPage() {
       if (!validation.success) {
         addToast({
           type: 'error',
-          title: 'Invalid template',
+          title: t('studioPage.messages.invalidTemplate'),
           description: validation.error.issues.map((i) => i.message).join(', '),
         });
         return;
@@ -69,22 +71,25 @@ export default function StudioPage() {
       
       addToast({
         type: 'success',
-        title: 'Template imported',
-        description: `Loaded ${data.cards.length} cards and ${data.categories.length} categories`,
+        title: t('studioPage.messages.templateImported'),
+        description: t('studioPage.messages.loadedCardsAndCategories', { 
+          cards: data.cards.length, 
+          categories: data.categories.length 
+        }),
       });
     } catch {
-      addToast({ type: 'error', title: 'Failed to read template file' });
+      addToast({ type: 'error', title: t('studioPage.messages.failedToReadTemplate') });
     }
     e.target.value = '';
   };
 
   const handleExport = () => {
     if (!study.title.trim()) {
-      addToast({ type: 'warning', title: 'Please enter a study title before exporting' });
+      addToast({ type: 'warning', title: t('studioPage.messages.enterTitleBeforeExport') });
       return;
     }
     if (cards.length === 0) {
-      addToast({ type: 'warning', title: 'Please add at least one card before exporting' });
+      addToast({ type: 'warning', title: t('studioPage.messages.addCardBeforeExport') });
       return;
     }
     
@@ -93,18 +98,18 @@ export default function StudioPage() {
     downloadJson(template, filename);
     addToast({
       type: 'success',
-      title: 'Template exported',
+      title: t('studioPage.messages.templateExported'),
       description: filename,
     });
   };
 
   const handleStartPreview = () => {
     if (cards.length === 0) {
-      addToast({ type: 'warning', title: 'Please add cards before starting' });
+      addToast({ type: 'warning', title: t('studioPage.messages.addCardsBeforeStart') });
       return;
     }
     if (study.sortType !== 'open' && categories.length === 0) {
-      addToast({ type: 'warning', title: 'Please add categories for closed/hybrid sort' });
+      addToast({ type: 'warning', title: t('studioPage.messages.addCategoriesForClosed') });
       return;
     }
     setShowParticipantModal(true);
@@ -112,7 +117,7 @@ export default function StudioPage() {
 
   const handleConfirmStart = () => {
     if (!participantName.trim()) {
-      addToast({ type: 'warning', title: 'Please enter your name or alias' });
+      addToast({ type: 'warning', title: t('runPage.messages.enterName') });
       return;
     }
     setShowParticipantModal(false);
@@ -132,7 +137,7 @@ export default function StudioPage() {
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-2 hover:bg-muted rounded-lg transition-colors"
-            title={sidebarOpen ? 'Hide sidebar' : 'Show sidebar'}
+            title={sidebarOpen ? t('studioPage.hideSidebar') : t('studioPage.showSidebar')}
           >
             {sidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeft className="w-5 h-5" />}
           </button>
@@ -143,7 +148,7 @@ export default function StudioPage() {
             </div>
             <div>
               <h1 className="font-semibold text-lg leading-tight">
-                {study.title || 'Untitled Study'}
+                {study.title || t('studioPage.untitledStudy')}
               </h1>
               <div className="flex items-center gap-2 mt-0.5">
                 <Badge variant="outline" className="text-[10px] px-1.5 py-0">
@@ -151,7 +156,7 @@ export default function StudioPage() {
                 </Badge>
                 <span className="text-xs text-muted-foreground flex items-center gap-1">
                   <Layers className="w-3 h-3" />
-                  {categories.length} categories · {cards.length} cards
+                  {categories.length} {t('studioPage.categories')} · {cards.length} {t('studioPage.cards')}
                 </span>
               </div>
             </div>
@@ -164,7 +169,7 @@ export default function StudioPage() {
             <>
               <label className="px-3 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-all cursor-pointer flex items-center gap-2 hover:shadow-sm">
                 <Upload className="w-4 h-4" />
-                Import
+                {t('common.import')}
                 <input
                   type="file"
                   accept=".json"
@@ -177,14 +182,14 @@ export default function StudioPage() {
                 className="px-3 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-all flex items-center gap-2 hover:shadow-sm"
               >
                 <Download className="w-4 h-4" />
-                Export
+                {t('common.export')}
               </button>
               <button
                 onClick={handleStartPreview}
                 className="px-4 py-2 text-sm bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-lg hover:opacity-90 transition-all flex items-center gap-2 shadow-md hover:shadow-lg"
               >
                 <Play className="w-4 h-4" />
-                Run Study
+                {t('builderPage.actions.runStudy')}
               </button>
             </>
           ) : (
@@ -193,7 +198,7 @@ export default function StudioPage() {
               className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-all flex items-center gap-2"
             >
               <Settings2 className="w-4 h-4" />
-              Back to Edit
+              {t('studioPage.backToEdit')}
             </button>
           )}
         </div>
@@ -221,7 +226,7 @@ export default function StudioPage() {
       {showParticipantModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-card p-6 rounded-lg shadow-xl w-full max-w-md">
-            <h2 className="text-lg font-semibold mb-4">Start Card Sorting</h2>
+            <h2 className="text-lg font-semibold mb-4">{t('studioPage.startCardSorting')}</h2>
             
             <div className="mb-4 p-3 bg-muted rounded-md">
               <p className="text-sm text-muted-foreground">{study.instructionsMarkdown}</p>
@@ -229,18 +234,18 @@ export default function StudioPage() {
             
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1">
-                Your Name / Alias <span className="text-destructive">*</span>
+                {t('runPage.participantInfo.nameLabel')} <span className="text-destructive">*</span>
               </label>
               <input
                 type="text"
                 value={participantName}
                 onChange={(e) => setParticipantName(e.target.value)}
                 className="w-full px-3 py-2 border border-input rounded-md bg-background"
-                placeholder="Enter a name or alias"
+                placeholder={t('runPage.participantInfo.namePlaceholder')}
                 autoFocus
               />
               <p className="text-xs text-muted-foreground mt-1">
-                Use an alias if you prefer not to share your real name.
+                {t('runPage.nameAliasHint')}
               </p>
             </div>
 
@@ -249,14 +254,14 @@ export default function StudioPage() {
                 onClick={() => setShowParticipantModal(false)}
                 className="flex-1 px-4 py-2 border border-border rounded-md hover:bg-muted"
               >
-                Cancel
+                {t('common.cancel')}
               </button>
               <button
                 onClick={handleConfirmStart}
                 disabled={!participantName.trim()}
                 className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 disabled:opacity-50"
               >
-                Start Sorting
+                {t('runPage.participantInfo.startSession')}
               </button>
             </div>
           </div>

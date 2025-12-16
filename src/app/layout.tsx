@@ -1,6 +1,10 @@
 import { Outlet, Link } from 'react-router-dom';
+import { LanguageSwitcher } from '@/components/ui/language-switcher';
+import { useI18n } from '@/contexts/i18n-context';
 
 export function Layout() {
+  const { t } = useI18n();
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border">
@@ -8,19 +12,20 @@ export function Layout() {
           <Link to="/" className="text-xl font-bold text-foreground hover:text-primary">
             Card Sorting UX
           </Link>
-          <nav className="flex gap-4">
+          <nav className="flex items-center gap-6">
             <Link
               to="/builder"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              Builder
+              {t('navigation.builder')}
             </Link>
             <Link
               to="/run"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              Run Study
+              {t('navigation.run')}
             </Link>
+            <LanguageSwitcher />
           </nav>
         </div>
       </header>
@@ -29,7 +34,7 @@ export function Layout() {
       </main>
       <footer className="border-t border-border mt-auto">
         <div className="container mx-auto px-4 py-4 text-center text-sm text-muted-foreground">
-          <p>All data stays on your device. No server, no tracking.</p>
+          <p>{t('common.dataStaysOnDevice')}</p>
         </div>
       </footer>
     </div>
