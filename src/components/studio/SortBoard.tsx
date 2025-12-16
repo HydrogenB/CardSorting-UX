@@ -4,16 +4,19 @@ import {
   DragOverlay,
   pointerWithin,
   PointerSensor,
+  KeyboardSensor,
   useSensor,
   useSensors,
   type DragStartEvent,
   type DragEndEvent,
 } from '@dnd-kit/core';
+import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { useBuilderStore } from '@/store/builderStore';
 import { downloadJson } from '@/lib/download';
 import { DroppableCategory } from './DroppableCategory';
 import { DraggableCard } from './DraggableCard';
 import { Download, RotateCcw, HelpCircle } from 'lucide-react';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 
 interface SortBoardProps {
   mode: 'edit' | 'preview';
@@ -30,6 +33,9 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [movesCount, setMovesCount] = useState(0);
+
+  // Enable keyboard shortcuts
+  useKeyboardShortcuts();
 
   // Initialize placements when entering preview mode
   useEffect(() => {
@@ -48,7 +54,10 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
   }, [mode, cards, study.settings.randomizeCardOrder]);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
   );
 
   // Group cards by category
