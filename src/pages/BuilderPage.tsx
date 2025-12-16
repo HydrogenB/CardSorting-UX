@@ -6,7 +6,7 @@ import {
   CardEditor,
   ExportTemplateButton,
 } from '@/components/builder';
-import { RotateCcw } from 'lucide-react';
+import { RotateCcw, Github, Linkedin, User } from 'lucide-react';
 import { useI18n } from '@/contexts/i18n-context';
 
 export default function BuilderPage() {
@@ -20,7 +20,7 @@ export default function BuilderPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6 pb-20">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{t('builderPage.title')}</h1>
@@ -63,6 +63,34 @@ export default function BuilderPage() {
       {/* Export Section */}
       <div className="sticky bottom-4 p-4 bg-card border border-border rounded-lg shadow-lg">
         <ExportTemplateButton />
+      </div>
+
+      {/* Watermark */}
+      <div className="fixed bottom-4 right-4 p-3 bg-background/80 backdrop-blur-sm border border-border/50 rounded-lg shadow-sm text-xs text-muted-foreground">
+        <div className="flex items-center gap-2 mb-1">
+          <User className="w-3 h-3" />
+          <span className="font-medium">Jirad Srirattana-arporn</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <a 
+            href="https://github.com/HydrogenB/CardSorting-UX" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 hover:text-foreground transition-colors"
+          >
+            <Github className="w-3 h-3" />
+            <span>GitHub</span>
+          </a>
+          <a 
+            href="https://th.linkedin.com/in/jirads" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 hover:text-foreground transition-colors"
+          >
+            <Linkedin className="w-3 h-3" />
+            <span>LinkedIn</span>
+          </a>
+        </div>
       </div>
     </div>
   );
