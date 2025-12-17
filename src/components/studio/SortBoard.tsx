@@ -167,7 +167,10 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
       },
     };
 
-    const filename = `result_${participantName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.json`;
+    const now = new Date();
+    const dateStr = now.toISOString().split('T')[0];
+    const timeStr = `${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(now.getSeconds()).padStart(2, '0')}`;
+    const filename = `result_${participantName.replace(/\s+/g, '_')}_${dateStr}_${timeStr}.json`;
     downloadJson(result, filename);
   };
 
