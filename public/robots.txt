@@ -1,0 +1,11 @@
+# robots.txt for CardSorting.io
+# https://cardsorting-ux.vercel.app/
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://cardsorting-ux.vercel.app/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1

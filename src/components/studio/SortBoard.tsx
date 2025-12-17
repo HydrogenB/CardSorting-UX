@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
   DndContext,
   DragOverlay,
@@ -35,7 +35,7 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [movesCount, setMovesCount] = useState(0);
-  const [undoStack, setUndoStack] = useState<CardPlacement[]>([]);
+  const [, setUndoStack] = useState<CardPlacement[]>([]);
   const { addToast } = useToast();
   const { t } = useI18n();
 
@@ -156,16 +156,6 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
       }
     }
   };
-
-  const handleUndo = useCallback(() => {
-    setUndoStack(prev => {
-      if (prev.length === 0) return prev;
-      const newStack = [...prev];
-      const previousState = newStack.pop()!;
-      setPlacements(previousState);
-      return newStack;
-    });
-  }, []);
 
   const handleReset = () => {
     if (confirm('Reset all card placements?')) {
