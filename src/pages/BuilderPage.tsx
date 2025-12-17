@@ -99,19 +99,6 @@ export default function BuilderPage() {
               loading="lazy"
             />
           </a>
-          <a 
-            href="https://github.com/HydrogenB/CardSorting-UX/fork"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Fork CardSorting-UX on GitHub"
-          >
-            <img 
-              src="https://img.shields.io/github/forks/HydrogenB/CardSorting-UX?style=social" 
-              alt="GitHub forks"
-              className="h-4"
-              loading="lazy"
-            />
-          </a>
         </div>
       </footer>
     </div>
