@@ -124,33 +124,36 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
       setPlacements(prev => ({ ...prev, [cardId]: targetCategory }));
       setMovesCount(prev => prev + 1);
       
-      // Get card name for toast
-      const movedCard = cards.find(c => c.id === cardId);
-      const targetName = targetCategory === null 
-        ? t('runPage.sorting.unsortedCards')
-        : targetCategory === 'unsure'
-          ? study.settings.unsureBucketLabel
-          : categories.find(c => c.id === targetCategory)?.label || targetCategory;
-      
-      // Show toast with undo action
-      addToast({
-        type: 'action',
-        title: t('accessibility.cardMoved', { category: targetName }),
-        description: movedCard?.label,
-        duration: 5000,
-        action: {
-          label: t('common.undo'),
-          onClick: () => {
-            setUndoStack(prev => {
-              if (prev.length === 0) return prev;
-              const newStack = [...prev];
-              const previousState = newStack.pop()!;
-              setPlacements(previousState);
-              return newStack;
-            });
+      // Only show toast with undo in edit/studio mode, not in study mode
+      if (mode === 'edit') {
+        // Get card name for toast
+        const movedCard = cards.find(c => c.id === cardId);
+        const targetName = targetCategory === null 
+          ? t('runPage.sorting.unsortedCards')
+          : targetCategory === 'unsure'
+            ? study.settings.unsureBucketLabel
+            : categories.find(c => c.id === targetCategory)?.label || targetCategory;
+        
+        // Show toast with undo action
+        addToast({
+          type: 'action',
+          title: t('accessibility.cardMoved', { category: targetName }),
+          description: movedCard?.label,
+          duration: 5000,
+          action: {
+            label: t('common.undo'),
+            onClick: () => {
+              setUndoStack(prev => {
+                if (prev.length === 0) return prev;
+                const newStack = [...prev];
+                const previousState = newStack.pop()!;
+                setPlacements(previousState);
+                return newStack;
+              });
+            },
           },
-        },
-      });
+        });
+      }
     }
   };
 
