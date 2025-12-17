@@ -81,6 +81,39 @@ export default function StudioPage() {
     e.target.value = '';
   };
 
+  const handleLoadExample = async () => {
+    try {
+      const res = await fetch('/ExampleTemplate.json', { cache: 'no-cache' });
+      if (!res.ok) {
+        alert(t('studioPage.messages.failedToReadTemplate'));
+        return;
+      }
+
+      const data = (await res.json()) as StudyTemplate;
+      const validation = validateTemplate(data);
+
+      if (!validation.success) {
+        alert(
+          t('studioPage.messages.invalidTemplate') +
+            '\n' +
+            validation.error.issues.map((i) => i.message).join('\n')
+        );
+        return;
+      }
+
+      reset();
+      setStudy(data.study);
+      data.categories.forEach((cat) => {
+        useBuilderStore.getState().addCategory(cat.label, cat.description, cat.image);
+      });
+      data.cards.forEach((card) => {
+        useBuilderStore.getState().addCard(card.label, card.description, card.image);
+      });
+    } catch {
+      alert(t('studioPage.messages.failedToReadTemplate'));
+    }
+  };
+
   const handleExport = () => {
     if (!study.title.trim()) {
       addToast({ type: 'warning', title: t('studioPage.messages.enterTitleBeforeExport') });
@@ -184,6 +217,12 @@ export default function StudioPage() {
                 />
               </label>
               <button
+                onClick={handleLoadExample}
+                className="px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all hover:shadow-sm"
+              >
+                Load Example
+              </button>
+              <button
                 onClick={handleExport}
                 className="px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all flex items-center gap-2 hover:shadow-sm"
               >
@@ -198,9 +237,6 @@ export default function StudioPage() {
                 <Play className="w-3.5 h-3.5" />
                 {t('builderPage.actions.runStudy')}
               </button>
-              <span className="text-xs text-muted-foreground hidden sm:block">
-                {t('studioPage.preview.toTestHint')}
-              </span>
             </>
           ) : (
             <>
@@ -230,20 +266,6 @@ export default function StudioPage() {
 
         {/* Sort Board / Main Area */}
         <main className="flex-1 overflow-hidden bg-muted/30 relative flex flex-col">
-          {mode === 'edit' && (
-            <div className="px-4 pt-3">
-              <div className="rounded-lg border border-amber-200/60 bg-amber-50/50 backdrop-blur-sm px-4 py-2.5">
-                <div className="flex items-center gap-3">
-                  <Badge variant="warning" className="text-[11px] px-2.5 py-0.5 font-semibold tracking-wide">
-                    {t('studioPage.preview.label')}
-                  </Badge>
-                  <p className="text-sm text-amber-800/80 font-medium">
-                    {t('studioPage.preview.description')}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
           <SortBoard 
             mode={mode} 
             participantName={mode === 'edit' ? t('studioPage.previewUser') : participantName}

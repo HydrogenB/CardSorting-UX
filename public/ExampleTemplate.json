@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "1.0.0",
+  "templateId": "tmpl_example_4cat_15card_v1",
+  "study": {
+    "title": "Example Study — 4 Categories / 15 Cards",
+    "description": "Closed card sort with an Unsure bucket enabled.",
+    "language": "en",
+    "sortType": "closed",
+    "settings": {
+      "randomizeCardOrder": true,
+      "allowCreateCategories": false,
+      "requireAllCardsSorted": true,
+      "enableUnsureBucket": true,
+      "unsureBucketLabel": "Unsure / Doesn't fit"
+    },
+    "instructionsMarkdown": "Drag each card into the group where you'd expect to find it first. If nothing fits, use the Unsure bucket."
+  },
+  "categories": [
+    {
+      "id": "cat_profile_security",
+      "label": "Profile & Security",
+      "description": ""
+    },
+    {
+      "id": "cat_billing_usage",
+      "label": "Billing & Usage",
+      "description": ""
+    },
+    {
+      "id": "cat_rewards_benefits",
+      "label": "Rewards & Benefits",
+      "description": ""
+    },
+    {
+      "id": "cat_support_legal",
+      "label": "Support & Legal",
+      "description": ""
+    }
+  ],
+  "cards": [
+    {
+      "id": "card_mobile_id",
+      "label": "Mobile ID",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_edit_personal_info",
+      "label": "Edit Personal Info",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_manage_devices",
+      "label": "Manage Devices",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_change_password_pin",
+      "label": "Change Password / PIN",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_usage_summary",
+      "label": "Usage Summary",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_view_bill",
+      "label": "View Bill / Invoice",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_pay_bill",
+      "label": "Pay Bill",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_manage_refill",
+      "label": "Manage Refill",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_refill_for_other",
+      "label": "Refill for Other",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_gift_box",
+      "label": "Gift Box",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_redeem_points",
+      "label": "Redeem Points",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_my_coupons",
+      "label": "My Coupons",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_contact_support",
+      "label": "Contact Support",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_privacy_notice",
+      "label": "Privacy Notice",
+      "description": "",
+      "meta": {}
+    },
+    {
+      "id": "card_terms_of_service",
+      "label": "Terms of Service",
+      "description": "",
+      "meta": {}
+    }
+  ],
+  "createdAt": "2025-12-16T00:00:00.000Z"
+}

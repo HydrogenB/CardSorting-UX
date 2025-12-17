@@ -24,10 +24,15 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType | null>(null);
 
+const disabledToastContext: ToastContextType = {
+  toasts: [],
+  addToast: () => {},
+  removeToast: () => {},
+};
+
 export function useToast() {
   const context = useContext(ToastContext);
-  if (!context) throw new Error('useToast must be used within ToastProvider');
-  return context;
+  return context ?? disabledToastContext;
 }
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
