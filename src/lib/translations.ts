@@ -162,6 +162,9 @@ export interface Translations {
     backToEdit: string;
     startCardSorting: string;
     preview: {
+      label: string;
+      toTestHint: string;
+      previewModeMessage: string;
       title: string;
       description: string;
       categories: string;
@@ -370,6 +373,9 @@ export const translations: Record<Language, Translations> = {
       backToEdit: 'Back to Edit',
       startCardSorting: 'Start Card Sorting',
       preview: {
+        label: 'Preview',
+        toTestHint: 'To test, click Run Study',
+        previewModeMessage: 'You are currently in Preview mode.',
         title: 'Sort Board Preview',
         description: 'Configure your study in the left panel, then click "Run Study" to start the card sorting session.',
         categories: 'Categories',
@@ -576,6 +582,9 @@ export const translations: Record<Language, Translations> = {
       backToEdit: 'กลับไปแก้ไข',
       startCardSorting: 'เริ่มจัดการ์ด',
       preview: {
+        label: 'พรีวิว',
+        toTestHint: 'หากต้องการทดสอบ ให้คลิก "เริ่มการศึกษา"',
+        previewModeMessage: 'ขณะนี้คุณอยู่ในโหมดพรีวิว',
         title: 'พรีวิวบอร์ดจัดการ์ด',
         description: 'กำหนดค่าการศึกษาในแผงด้านซ้าย จากนั้นคลิก "เริ่มการศึกษา" เพื่อเริ่มเซสชันการจัดการ์ด',
         categories: 'หมวดหมู่',

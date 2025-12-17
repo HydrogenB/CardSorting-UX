@@ -10,13 +10,15 @@ interface BuilderState {
   
   // Actions
   setStudy: (study: Partial<Study>) => void;
-  addCategory: (label: string, description?: string, image?: string) => void;
+  addCategory: (label: string, description?: string, image?: string) => string; // returns id
   updateCategory: (id: string, updates: Partial<Omit<Category, 'id'>>) => void;
-  removeCategory: (id: string) => void;
+  removeCategory: (id: string) => Category | undefined; // returns removed category
+  restoreCategory: (category: Category, index?: number) => void;
   reorderCategories: (startIndex: number, endIndex: number) => void;
-  addCard: (label: string, description?: string, image?: string) => void;
+  addCard: (label: string, description?: string, image?: string) => string; // returns id
   updateCard: (id: string, updates: Partial<Omit<Card, 'id'>>) => void;
-  removeCard: (id: string) => void;
+  removeCard: (id: string) => Card | undefined; // returns removed card
+  restoreCard: (card: Card, index?: number) => void;
   reorderCards: (startIndex: number, endIndex: number) => void;
   reset: () => void;
   exportTemplate: () => StudyTemplate;
@@ -53,13 +55,16 @@ export const useBuilderStore = create<BuilderState>()(
           study: { ...state.study, ...updates },
         })),
       
-      addCategory: (label, description = '', image?: string) =>
+      addCategory: (label, description = '', image?: string) => {
+        const id = generateCategoryId();
         set((state) => ({
           categories: [
             ...state.categories,
-            { id: generateCategoryId(), label, description, image },
+            { id, label, description, image },
           ],
-        })),
+        }));
+        return id;
+      },
       
       updateCategory: (id, updates) =>
         set((state) => ({
@@ -68,10 +73,24 @@ export const useBuilderStore = create<BuilderState>()(
           ),
         })),
       
-      removeCategory: (id) =>
+      removeCategory: (id) => {
+        const category = get().categories.find((cat) => cat.id === id);
         set((state) => ({
           categories: state.categories.filter((cat) => cat.id !== id),
-        })),
+        }));
+        return category;
+      },
+      
+      restoreCategory: (category, index) =>
+        set((state) => {
+          const categories = [...state.categories];
+          if (index !== undefined && index >= 0 && index <= categories.length) {
+            categories.splice(index, 0, category);
+          } else {
+            categories.push(category);
+          }
+          return { categories };
+        }),
       
       reorderCategories: (startIndex, endIndex) =>
         set((state) => {
@@ -81,13 +100,16 @@ export const useBuilderStore = create<BuilderState>()(
           return { categories: result };
         }),
       
-      addCard: (label, description = '', image?: string) =>
+      addCard: (label, description = '', image?: string) => {
+        const id = generateCardId();
         set((state) => ({
           cards: [
             ...state.cards,
-            { id: generateCardId(), label, description, image, meta: {} },
+            { id, label, description, image, meta: {} },
           ],
-        })),
+        }));
+        return id;
+      },
       
       updateCard: (id, updates) =>
         set((state) => ({
@@ -96,10 +118,24 @@ export const useBuilderStore = create<BuilderState>()(
           ),
         })),
       
-      removeCard: (id) =>
+      removeCard: (id) => {
+        const card = get().cards.find((c) => c.id === id);
         set((state) => ({
-          cards: state.cards.filter((card) => card.id !== id),
-        })),
+          cards: state.cards.filter((c) => c.id !== id),
+        }));
+        return card;
+      },
+      
+      restoreCard: (card, index) =>
+        set((state) => {
+          const cards = [...state.cards];
+          if (index !== undefined && index >= 0 && index <= cards.length) {
+            cards.splice(index, 0, card);
+          } else {
+            cards.push(card);
+          }
+          return { cards };
+        }),
       
       reorderCards: (startIndex, endIndex) =>
         set((state) => {

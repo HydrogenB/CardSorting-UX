@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ChangeEvent } from 'react';
 import { useBuilderStore } from '@/store/builderStore';
 import { downloadJson, readJsonFile } from '@/lib/download';
 import { validateTemplate } from '@/domain/schema';
@@ -7,6 +7,7 @@ import { ConfigPanel } from '@/components/studio/ConfigPanel';
 import { SortBoard } from '@/components/studio/SortBoard';
 import { useToast } from '@/components/ui/toast';
 import { Badge } from '@/components/ui/badge';
+import { LanguageSwitcher, LanguageSwitcherCompact } from '@/components/ui/language-switcher';
 import { useI18n } from '@/contexts/i18n-context';
 import { 
   Upload, 
@@ -39,7 +40,7 @@ export default function StudioPage() {
     reset 
   } = useBuilderStore();
 
-  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImport = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -162,6 +163,12 @@ export default function StudioPage() {
         </div>
 
         <div className="flex items-center gap-2">
+          <div className="hidden sm:block">
+            <LanguageSwitcher />
+          </div>
+          <div className="sm:hidden">
+            <LanguageSwitcherCompact />
+          </div>
           {mode === 'edit' ? (
             <>
               <label className="px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all cursor-pointer flex items-center gap-2 hover:shadow-sm">
@@ -190,13 +197,13 @@ export default function StudioPage() {
                 {t('builderPage.actions.runStudy')}
               </button>
               <span className="text-xs text-muted-foreground hidden sm:block">
-                To test, click Run Study
+                {t('studioPage.preview.toTestHint')}
               </span>
             </>
           ) : (
             <>
               <Badge variant="warning" className="text-[10px] px-2 py-0.5">
-                Preview
+                {t('studioPage.preview.label')}
               </Badge>
               <button
                 onClick={handleExitPreview}
@@ -226,7 +233,7 @@ export default function StudioPage() {
               <div className="rounded-lg border border-border/50 bg-background/70 backdrop-blur-sm px-3 py-2">
                 <div className="flex items-center gap-2">
                   <Badge variant="warning" className="text-[10px] px-2 py-0.5">
-                    Preview
+                    {t('studioPage.preview.label')}
                   </Badge>
                   <p className="text-xs text-muted-foreground">
                     {t('studioPage.preview.description')}
@@ -240,10 +247,10 @@ export default function StudioPage() {
               <div className="rounded-lg border border-border/50 bg-background/70 backdrop-blur-sm px-3 py-2">
                 <div className="flex items-center gap-2">
                   <Badge variant="warning" className="text-[10px] px-2 py-0.5">
-                    Preview
+                    {t('studioPage.preview.label')}
                   </Badge>
                   <p className="text-xs text-muted-foreground">
-                    You are currently in Preview mode.
+                    {t('studioPage.preview.previewModeMessage')}
                   </p>
                 </div>
               </div>

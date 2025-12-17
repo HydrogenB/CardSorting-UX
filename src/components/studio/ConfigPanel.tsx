@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -15,6 +15,8 @@ import {
 } from '@dnd-kit/sortable';
 import { useBuilderStore } from '@/store/builderStore';
 import { SortableItem } from './SortableItem';
+import { useToast } from '@/components/ui/toast';
+import { useI18n } from '@/contexts/i18n-context';
 import { 
   ChevronDown, 
   ChevronRight, 
@@ -59,12 +61,20 @@ export function ConfigPanel() {
     addCategory,
     updateCategory,
     removeCategory,
+    restoreCategory,
     reorderCategories,
     addCard,
     updateCard,
     removeCard,
+    restoreCard,
     reorderCards,
   } = useBuilderStore();
+  
+  const { addToast } = useToast();
+  const { t } = useI18n();
+  
+  // Track previous values for undo on field updates
+  const prevStudyRef = useRef({ title: study.title, description: study.description });
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -76,15 +86,101 @@ export function ConfigPanel() {
 
   const handleAddCategory = () => {
     if (newCategoryLabel.trim()) {
-      addCategory(newCategoryLabel.trim());
+      const label = newCategoryLabel.trim();
+      const id = addCategory(label);
       setNewCategoryLabel('');
+      
+      addToast({
+        type: 'action',
+        title: `Added category "${label}"`,
+        duration: 5000,
+        action: {
+          label: t('common.undo'),
+          onClick: () => removeCategory(id),
+        },
+      });
     }
   };
 
   const handleAddCard = () => {
     if (newCardLabel.trim()) {
-      addCard(newCardLabel.trim());
+      const label = newCardLabel.trim();
+      const id = addCard(label);
       setNewCardLabel('');
+      
+      addToast({
+        type: 'action',
+        title: `Added card "${label}"`,
+        duration: 5000,
+        action: {
+          label: t('common.undo'),
+          onClick: () => removeCard(id),
+        },
+      });
+    }
+  };
+  
+  const handleRemoveCategory = (id: string, index: number) => {
+    const removed = removeCategory(id);
+    if (removed) {
+      addToast({
+        type: 'action',
+        title: `Removed category "${removed.label}"`,
+        duration: 5000,
+        action: {
+          label: t('common.undo'),
+          onClick: () => restoreCategory(removed, index),
+        },
+      });
+    }
+  };
+  
+  const handleRemoveCard = (id: string, index: number) => {
+    const removed = removeCard(id);
+    if (removed) {
+      addToast({
+        type: 'action',
+        title: `Removed card "${removed.label}"`,
+        duration: 5000,
+        action: {
+          label: t('common.undo'),
+          onClick: () => restoreCard(removed, index),
+        },
+      });
+    }
+  };
+  
+  const handleTitleBlur = () => {
+    if (prevStudyRef.current.title !== study.title && study.title.trim()) {
+      const oldTitle = prevStudyRef.current.title;
+      prevStudyRef.current.title = study.title;
+      
+      addToast({
+        type: 'action',
+        title: 'Updated title',
+        duration: 5000,
+        action: {
+          label: t('common.undo'),
+          onClick: () => setStudy({ title: oldTitle }),
+        },
+      });
+    }
+  };
+  
+  const handleDescriptionBlur = () => {
+    if (prevStudyRef.current.description !== study.description) {
+      const oldDesc = prevStudyRef.current.description;
+      prevStudyRef.current.description = study.description;
+      
+      addToast({
+        type: 'action',
+        title: 'Updated description',
+        duration: 5000,
+        action: {
+          label: t('common.undo'),
+          onClick: () => setStudy({ description: oldDesc }),
+        },
+      });
     }
   };
 
@@ -117,6 +213,7 @@ export function ConfigPanel() {
               type="text"
               value={study.title}
               onChange={(e) => setStudy({ title: e.target.value })}
+              onBlur={handleTitleBlur}
               className="w-full px-2 py-1.5 text-sm border border-input rounded bg-background"
               placeholder="Study title"
             />
@@ -126,6 +223,7 @@ export function ConfigPanel() {
             <textarea
               value={study.description}
               onChange={(e) => setStudy({ description: e.target.value })}
+              onBlur={handleDescriptionBlur}
               className="w-full px-2 py-1.5 text-sm border border-input rounded bg-background resize-none"
               rows={2}
               placeholder="Brief description"
@@ -203,8 +301,20 @@ export function ConfigPanel() {
                   image={cat.image}
                   onLabelChange={(value) => updateCategory(cat.id, { label: value })}
                   onDescriptionChange={(value) => updateCategory(cat.id, { description: value })}
-                  onImageChange={(value) => updateCategory(cat.id, { image: value })}
-                  onRemove={() => removeCategory(cat.id)}
+                  onImageChange={(value) => {
+                    const oldImage = cat.image;
+                    updateCategory(cat.id, { image: value });
+                    addToast({
+                      type: 'action',
+                      title: value ? 'Added image' : 'Removed image',
+                      duration: 5000,
+                      action: {
+                        label: t('common.undo'),
+                        onClick: () => updateCategory(cat.id, { image: oldImage }),
+                      },
+                    });
+                  }}
+                  onRemove={() => handleRemoveCategory(cat.id, categories.findIndex(c => c.id === cat.id))}
                   placeholder={{ label: 'Category name', description: 'Description (optional)' }}
                 />
               ))}
@@ -248,8 +358,20 @@ export function ConfigPanel() {
                   image={card.image}
                   onLabelChange={(value) => updateCard(card.id, { label: value })}
                   onDescriptionChange={(value) => updateCard(card.id, { description: value })}
-                  onImageChange={(value) => updateCard(card.id, { image: value })}
-                  onRemove={() => removeCard(card.id)}
+                  onImageChange={(value) => {
+                    const oldImage = card.image;
+                    updateCard(card.id, { image: value });
+                    addToast({
+                      type: 'action',
+                      title: value ? 'Added image' : 'Removed image',
+                      duration: 5000,
+                      action: {
+                        label: t('common.undo'),
+                        onClick: () => updateCard(card.id, { image: oldImage }),
+                      },
+                    });
+                  }}
+                  onRemove={() => handleRemoveCard(card.id, cards.findIndex(c => c.id === card.id))}
                   placeholder={{ label: 'Card label', description: 'Description (optional)' }}
                 />
               ))}

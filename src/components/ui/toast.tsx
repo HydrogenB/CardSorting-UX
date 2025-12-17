@@ -2,7 +2,7 @@ import { useState, createContext, useContext, useCallback } from 'react';
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-type ToastType = 'success' | 'error' | 'info' | 'warning';
+type ToastType = 'success' | 'error' | 'info' | 'warning' | 'action';
 
 interface Toast {
   id: string;
@@ -61,6 +61,7 @@ const icons = {
   error: AlertCircle,
   info: Info,
   warning: AlertTriangle,
+  action: Info,
 };
 
 const styles = {
@@ -68,6 +69,7 @@ const styles = {
   error: 'bg-gradient-to-r from-red-50 to-rose-50 border-red-200 text-red-800 shadow-red-100',
   info: 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 text-blue-800 shadow-blue-100',
   warning: 'bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-200 text-amber-800 shadow-amber-100',
+  action: 'bg-zinc-800 border-zinc-700 text-zinc-100 shadow-zinc-900/30',
 };
 
 const iconStyles = {
@@ -75,6 +77,7 @@ const iconStyles = {
   error: 'text-red-500',
   info: 'text-blue-500',
   warning: 'text-amber-500',
+  action: 'text-zinc-400',
 };
 
 function ToastContainer({ toasts, removeToast }: { toasts: Toast[]; removeToast: (id: string) => void }) {
@@ -115,10 +118,14 @@ function ToastContainer({ toasts, removeToast }: { toasts: Toast[]; removeToast:
               )}
               {toast.action && (
                 <button
-                  onClick={toast.action.onClick}
+                  onClick={() => {
+                    toast.action?.onClick();
+                    removeToast(toast.id);
+                  }}
                   className={cn(
-                    'mt-2 text-xs font-medium underline decoration-2 underline-offset-2',
-                    'hover:no-underline transition-all duration-200',
+                    toast.type === 'action'
+                      ? 'mt-2 px-3 py-1 text-xs font-medium border border-zinc-600 rounded-md bg-zinc-700 hover:bg-zinc-600 text-zinc-100 transition-all duration-200'
+                      : 'mt-2 text-xs font-medium underline decoration-2 underline-offset-2 hover:no-underline transition-all duration-200',
                     'focus:outline-none focus:ring-2 focus:ring-current focus:ring-offset-2 rounded'
                   )}
                 >
