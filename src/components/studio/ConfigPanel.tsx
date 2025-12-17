@@ -348,7 +348,7 @@ export function ConfigPanel() {
           onDragEnd={handleCardDragEnd}
         >
           <SortableContext items={cards.map(c => c.id)} strategy={verticalListSortingStrategy}>
-            <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
+            <div className="space-y-2">
               {cards.map((card) => (
                 <SortableItem
                   key={card.id}

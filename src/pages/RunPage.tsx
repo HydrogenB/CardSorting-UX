@@ -45,9 +45,11 @@ export default function RunPage() {
   }, [setTemplate, t]);
 
   const handleStartSession = () => {
+    // If no name provided, use datetime as default
     if (!participantName.trim()) {
-      alert(t('runPage.messages.enterName'));
-      return;
+      const now = new Date();
+      const defaultName = `${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(now.getSeconds()).padStart(2, '0')}`;
+      setParticipantName(defaultName);
     }
     startSession();
   };
@@ -118,8 +120,7 @@ export default function RunPage() {
           
           <button
             onClick={handleStartSession}
-            disabled={!participantName.trim()}
-            className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 disabled:opacity-50 transition-opacity"
+            className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-opacity"
           >
             {t('runPage.participantInfo.startSession')}
           </button>
