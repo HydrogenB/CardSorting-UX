@@ -161,6 +161,7 @@ export interface Translations {
     cards: string;
     backToEdit: string;
     startCardSorting: string;
+    previewUser: string;
     preview: {
       label: string;
       toTestHint: string;
@@ -170,6 +171,38 @@ export interface Translations {
       categories: string;
       cards: string;
       addCardsToStart: string;
+    };
+    configPanel: {
+      studyInfo: string;
+      title: string;
+      titlePlaceholder: string;
+      description: string;
+      descriptionPlaceholder: string;
+      sortType: string;
+      sortTypeClosed: string;
+      sortTypeOpen: string;
+      sortTypeHybrid: string;
+      settings: string;
+      randomizeCardOrder: string;
+      requireAllSorted: string;
+      enableUnsureBucket: string;
+      categories: string;
+      addCategory: string;
+      categoryPlaceholder: string;
+      cards: string;
+      addCard: string;
+      cardPlaceholder: string;
+      tooManyCards: string;
+      instructions: string;
+      instructionsPlaceholder: string;
+      addedCategory: string;
+      removedCategory: string;
+      addedCard: string;
+      removedCard: string;
+      addedImage: string;
+      removedImage: string;
+      updatedTitle: string;
+      updatedDescription: string;
     };
     export: {
       title: string;
@@ -372,6 +405,7 @@ export const translations: Record<Language, Translations> = {
       cards: 'cards',
       backToEdit: 'Back to Edit',
       startCardSorting: 'Start Card Sorting',
+      previewUser: 'Preview User',
       preview: {
         label: 'Preview',
         toTestHint: 'To test, click Run Study',
@@ -381,6 +415,38 @@ export const translations: Record<Language, Translations> = {
         categories: 'Categories',
         cards: 'Cards',
         addCardsToStart: 'Add some cards to get started',
+      },
+      configPanel: {
+        studyInfo: 'Study Info',
+        title: 'Title',
+        titlePlaceholder: 'Study title',
+        description: 'Description',
+        descriptionPlaceholder: 'Brief description',
+        sortType: 'Sort Type',
+        sortTypeClosed: 'Closed',
+        sortTypeOpen: 'Open',
+        sortTypeHybrid: 'Hybrid',
+        settings: 'Settings',
+        randomizeCardOrder: 'Randomize card order',
+        requireAllSorted: 'Require all sorted',
+        enableUnsureBucket: 'Enable "Unsure" bucket',
+        categories: 'Categories',
+        addCategory: 'Add new category...',
+        categoryPlaceholder: 'Category name',
+        cards: 'Cards',
+        addCard: 'Add new card...',
+        cardPlaceholder: 'Card label',
+        tooManyCards: '{{count}} cards — consider reducing for better UX',
+        instructions: 'Instructions',
+        instructionsPlaceholder: 'Instructions for participants...',
+        addedCategory: 'Added category "{{name}}"',
+        removedCategory: 'Removed category "{{name}}"',
+        addedCard: 'Added card "{{name}}"',
+        removedCard: 'Removed card "{{name}}"',
+        addedImage: 'Added image',
+        removedImage: 'Removed image',
+        updatedTitle: 'Updated title',
+        updatedDescription: 'Updated description',
       },
       export: {
         title: 'Export Results',
@@ -581,6 +647,7 @@ export const translations: Record<Language, Translations> = {
       cards: 'การ์ด',
       backToEdit: 'กลับไปแก้ไข',
       startCardSorting: 'เริ่มจัดการ์ด',
+      previewUser: 'ผู้ใช้พรีวิว',
       preview: {
         label: 'พรีวิว',
         toTestHint: 'หากต้องการทดสอบ ให้คลิก "เริ่มการศึกษา"',
@@ -590,6 +657,38 @@ export const translations: Record<Language, Translations> = {
         categories: 'หมวดหมู่',
         cards: 'การ์ด',
         addCardsToStart: 'เพิ่มการ์ดเพื่อเริ่มต้น',
+      },
+      configPanel: {
+        studyInfo: 'ข้อมูลการศึกษา',
+        title: 'ชื่อ',
+        titlePlaceholder: 'ชื่อการศึกษา',
+        description: 'คำอธิบาย',
+        descriptionPlaceholder: 'คำอธิบายสั้นๆ',
+        sortType: 'ประเภทการจัด',
+        sortTypeClosed: 'แบบปิด',
+        sortTypeOpen: 'แบบเปิด',
+        sortTypeHybrid: 'แบบผสม',
+        settings: 'การตั้งค่า',
+        randomizeCardOrder: 'สุ่มลำดับการ์ด',
+        requireAllSorted: 'ต้องจัดการ์ดทั้งหมด',
+        enableUnsureBucket: 'เปิดใช้ถัง "ไม่แน่ใจ"',
+        categories: 'หมวดหมู่',
+        addCategory: 'เพิ่มหมวดหมู่ใหม่...',
+        categoryPlaceholder: 'ชื่อหมวดหมู่',
+        cards: 'การ์ด',
+        addCard: 'เพิ่มการ์ดใหม่...',
+        cardPlaceholder: 'ป้ายกำกับการ์ด',
+        tooManyCards: '{{count}} การ์ด — พิจารณาลดจำนวนเพื่อ UX ที่ดีขึ้น',
+        instructions: 'คำแนะนำ',
+        instructionsPlaceholder: 'คำแนะนำสำหรับผู้เข้าร่วม...',
+        addedCategory: 'เพิ่มหมวดหมู่ "{{name}}"',
+        removedCategory: 'ลบหมวดหมู่ "{{name}}"',
+        addedCard: 'เพิ่มการ์ด "{{name}}"',
+        removedCard: 'ลบการ์ด "{{name}}"',
+        addedImage: 'เพิ่มรูปภาพ',
+        removedImage: 'ลบรูปภาพ',
+        updatedTitle: 'อัปเดตชื่อแล้ว',
+        updatedDescription: 'อัปเดตคำอธิบายแล้ว',
       },
       export: {
         title: 'ส่งออกผลลัพธ์',

@@ -230,27 +230,13 @@ export default function StudioPage() {
         <main className="flex-1 overflow-hidden bg-muted/30 relative flex flex-col">
           {mode === 'edit' && (
             <div className="px-4 pt-3">
-              <div className="rounded-lg border border-border/50 bg-background/70 backdrop-blur-sm px-3 py-2">
-                <div className="flex items-center gap-2">
-                  <Badge variant="warning" className="text-[10px] px-2 py-0.5">
+              <div className="rounded-lg border border-amber-200/60 bg-amber-50/50 backdrop-blur-sm px-4 py-2.5">
+                <div className="flex items-center gap-3">
+                  <Badge variant="warning" className="text-[11px] px-2.5 py-0.5 font-semibold tracking-wide">
                     {t('studioPage.preview.label')}
                   </Badge>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-amber-800/80 font-medium">
                     {t('studioPage.preview.description')}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-          {mode === 'preview' && (
-            <div className="px-4 pt-3">
-              <div className="rounded-lg border border-border/50 bg-background/70 backdrop-blur-sm px-3 py-2">
-                <div className="flex items-center gap-2">
-                  <Badge variant="warning" className="text-[10px] px-2 py-0.5">
-                    {t('studioPage.preview.label')}
-                  </Badge>
-                  <p className="text-xs text-muted-foreground">
-                    {t('studioPage.preview.previewModeMessage')}
                   </p>
                 </div>
               </div>
@@ -258,7 +244,7 @@ export default function StudioPage() {
           )}
           <SortBoard 
             mode={mode} 
-            participantName={mode === 'edit' ? 'Preview User' : participantName}
+            participantName={mode === 'edit' ? t('studioPage.previewUser') : participantName}
           />
         </main>
       </div>

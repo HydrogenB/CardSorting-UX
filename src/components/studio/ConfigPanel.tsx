@@ -92,7 +92,7 @@ export function ConfigPanel() {
       
       addToast({
         type: 'action',
-        title: `Added category "${label}"`,
+        title: t('studioPage.configPanel.addedCategory', { name: label }),
         duration: 5000,
         action: {
           label: t('common.undo'),
@@ -110,7 +110,7 @@ export function ConfigPanel() {
       
       addToast({
         type: 'action',
-        title: `Added card "${label}"`,
+        title: t('studioPage.configPanel.addedCard', { name: label }),
         duration: 5000,
         action: {
           label: t('common.undo'),
@@ -125,7 +125,7 @@ export function ConfigPanel() {
     if (removed) {
       addToast({
         type: 'action',
-        title: `Removed category "${removed.label}"`,
+        title: t('studioPage.configPanel.removedCategory', { name: removed.label }),
         duration: 5000,
         action: {
           label: t('common.undo'),
@@ -140,7 +140,7 @@ export function ConfigPanel() {
     if (removed) {
       addToast({
         type: 'action',
-        title: `Removed card "${removed.label}"`,
+        title: t('studioPage.configPanel.removedCard', { name: removed.label }),
         duration: 5000,
         action: {
           label: t('common.undo'),
@@ -157,7 +157,7 @@ export function ConfigPanel() {
       
       addToast({
         type: 'action',
-        title: 'Updated title',
+        title: t('studioPage.configPanel.updatedTitle'),
         duration: 5000,
         action: {
           label: t('common.undo'),
@@ -174,7 +174,7 @@ export function ConfigPanel() {
       
       addToast({
         type: 'action',
-        title: 'Updated description',
+        title: t('studioPage.configPanel.updatedDescription'),
         duration: 5000,
         action: {
           label: t('common.undo'),
@@ -205,86 +205,86 @@ export function ConfigPanel() {
   return (
     <div className="h-full flex flex-col">
       {/* Study Info */}
-      <CollapsibleSection title="Study Info">
+      <CollapsibleSection title={t('studioPage.configPanel.studyInfo')}>
         <div className="space-y-3">
           <div>
-            <label className="block text-xs font-medium mb-1 text-muted-foreground">Title</label>
+            <label className="block text-xs font-semibold mb-1.5 text-muted-foreground tracking-wide">{t('studioPage.configPanel.title')}</label>
             <input
               type="text"
               value={study.title}
               onChange={(e) => setStudy({ title: e.target.value })}
               onBlur={handleTitleBlur}
-              className="w-full px-2 py-1.5 text-sm border border-input rounded bg-background"
-              placeholder="Study title"
+              className="w-full px-3 py-2 text-sm font-medium border border-input rounded-lg bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+              placeholder={t('studioPage.configPanel.titlePlaceholder')}
             />
           </div>
           <div>
-            <label className="block text-xs font-medium mb-1 text-muted-foreground">Description</label>
+            <label className="block text-xs font-semibold mb-1.5 text-muted-foreground tracking-wide">{t('studioPage.configPanel.description')}</label>
             <textarea
               value={study.description}
               onChange={(e) => setStudy({ description: e.target.value })}
               onBlur={handleDescriptionBlur}
-              className="w-full px-2 py-1.5 text-sm border border-input rounded bg-background resize-none"
+              className="w-full px-3 py-2 text-sm border border-input rounded-lg bg-background resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
               rows={2}
-              placeholder="Brief description"
+              placeholder={t('studioPage.configPanel.descriptionPlaceholder')}
             />
           </div>
           <div>
-            <label className="block text-xs font-medium mb-1 text-muted-foreground">Sort Type</label>
+            <label className="block text-xs font-semibold mb-1.5 text-muted-foreground tracking-wide">{t('studioPage.configPanel.sortType')}</label>
             <select
               value={study.sortType}
               onChange={(e) => setStudy({ sortType: e.target.value as 'open' | 'closed' | 'hybrid' })}
-              className="w-full px-2 py-1.5 text-sm border border-input rounded bg-background"
+              className="w-full px-3 py-2 text-sm font-medium border border-input rounded-lg bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
             >
-              <option value="closed">Closed</option>
-              <option value="open">Open</option>
-              <option value="hybrid">Hybrid</option>
+              <option value="closed">{t('studioPage.configPanel.sortTypeClosed')}</option>
+              <option value="open">{t('studioPage.configPanel.sortTypeOpen')}</option>
+              <option value="hybrid">{t('studioPage.configPanel.sortTypeHybrid')}</option>
             </select>
           </div>
         </div>
       </CollapsibleSection>
 
       {/* Settings */}
-      <CollapsibleSection title="Settings" defaultOpen={false}>
-        <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm cursor-pointer">
+      <CollapsibleSection title={t('studioPage.configPanel.settings')} defaultOpen={false}>
+        <div className="space-y-2.5">
+          <label className="flex items-center gap-2.5 text-sm font-medium cursor-pointer hover:text-foreground transition-colors">
             <input
               type="checkbox"
               checked={study.settings.randomizeCardOrder}
               onChange={(e) => setStudy({ 
                 settings: { ...study.settings, randomizeCardOrder: e.target.checked } 
               })}
-              className="rounded"
+              className="rounded border-input"
             />
-            Randomize card order
+            {t('studioPage.configPanel.randomizeCardOrder')}
           </label>
-          <label className="flex items-center gap-2 text-sm cursor-pointer">
+          <label className="flex items-center gap-2.5 text-sm font-medium cursor-pointer hover:text-foreground transition-colors">
             <input
               type="checkbox"
               checked={study.settings.requireAllCardsSorted}
               onChange={(e) => setStudy({ 
                 settings: { ...study.settings, requireAllCardsSorted: e.target.checked } 
               })}
-              className="rounded"
+              className="rounded border-input"
             />
-            Require all sorted
+            {t('studioPage.configPanel.requireAllSorted')}
           </label>
-          <label className="flex items-center gap-2 text-sm cursor-pointer">
+          <label className="flex items-center gap-2.5 text-sm font-medium cursor-pointer hover:text-foreground transition-colors">
             <input
               type="checkbox"
               checked={study.settings.enableUnsureBucket}
               onChange={(e) => setStudy({ 
                 settings: { ...study.settings, enableUnsureBucket: e.target.checked } 
               })}
-              className="rounded"
+              className="rounded border-input"
             />
-            Enable "Unsure" bucket
+            {t('studioPage.configPanel.enableUnsureBucket')}
           </label>
         </div>
       </CollapsibleSection>
 
       {/* Categories */}
-      <CollapsibleSection title="Categories" count={categories.length}>
+      <CollapsibleSection title={t('studioPage.configPanel.categories')} count={categories.length}>
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -306,7 +306,7 @@ export function ConfigPanel() {
                     updateCategory(cat.id, { image: value });
                     addToast({
                       type: 'action',
-                      title: value ? 'Added image' : 'Removed image',
+                      title: value ? t('studioPage.configPanel.addedImage') : t('studioPage.configPanel.removedImage'),
                       duration: 5000,
                       action: {
                         label: t('common.undo'),
@@ -315,7 +315,7 @@ export function ConfigPanel() {
                     });
                   }}
                   onRemove={() => handleRemoveCategory(cat.id, categories.findIndex(c => c.id === cat.id))}
-                  placeholder={{ label: 'Category name', description: 'Description (optional)' }}
+                  placeholder={{ label: t('studioPage.configPanel.categoryPlaceholder'), description: t('common.optional') }}
                 />
               ))}
             </div>
@@ -327,8 +327,8 @@ export function ConfigPanel() {
             value={newCategoryLabel}
             onChange={(e) => setNewCategoryLabel(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleAddCategory()}
-            className="flex-1 px-3 py-2 text-sm border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/20"
-            placeholder="Add new category..."
+            className="flex-1 px-3 py-2 text-sm font-medium border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+            placeholder={t('studioPage.configPanel.addCategory')}
           />
           <button
             onClick={handleAddCategory}
@@ -341,7 +341,7 @@ export function ConfigPanel() {
       </CollapsibleSection>
 
       {/* Cards */}
-      <CollapsibleSection title="Cards" count={cards.length}>
+      <CollapsibleSection title={t('studioPage.configPanel.cards')} count={cards.length}>
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -363,7 +363,7 @@ export function ConfigPanel() {
                     updateCard(card.id, { image: value });
                     addToast({
                       type: 'action',
-                      title: value ? 'Added image' : 'Removed image',
+                      title: value ? t('studioPage.configPanel.addedImage') : t('studioPage.configPanel.removedImage'),
                       duration: 5000,
                       action: {
                         label: t('common.undo'),
@@ -372,7 +372,7 @@ export function ConfigPanel() {
                     });
                   }}
                   onRemove={() => handleRemoveCard(card.id, cards.findIndex(c => c.id === card.id))}
-                  placeholder={{ label: 'Card label', description: 'Description (optional)' }}
+                  placeholder={{ label: t('studioPage.configPanel.cardPlaceholder'), description: t('common.optional') }}
                 />
               ))}
             </div>
@@ -384,8 +384,8 @@ export function ConfigPanel() {
             value={newCardLabel}
             onChange={(e) => setNewCardLabel(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleAddCard()}
-            className="flex-1 px-3 py-2 text-sm border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/20"
-            placeholder="Add new card..."
+            className="flex-1 px-3 py-2 text-sm font-medium border border-input rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+            placeholder={t('studioPage.configPanel.addCard')}
           />
           <button
             onClick={handleAddCard}
@@ -396,20 +396,20 @@ export function ConfigPanel() {
           </button>
         </div>
         {cards.length > 50 && (
-          <p className="text-xs text-amber-600 mt-2 p-2 bg-amber-50 rounded-lg">
-            ⚠️ {cards.length} cards - consider reducing for better UX
+          <p className="text-xs text-amber-700 font-medium mt-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
+            ⚠️ {t('studioPage.configPanel.tooManyCards', { count: cards.length })}
           </p>
         )}
       </CollapsibleSection>
 
       {/* Instructions */}
-      <CollapsibleSection title="Instructions" defaultOpen={false}>
+      <CollapsibleSection title={t('studioPage.configPanel.instructions')} defaultOpen={false}>
         <textarea
           value={study.instructionsMarkdown}
           onChange={(e) => setStudy({ instructionsMarkdown: e.target.value })}
-          className="w-full px-2 py-1.5 text-sm border border-input rounded bg-background resize-none"
+          className="w-full px-3 py-2 text-sm border border-input rounded-lg bg-background resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
           rows={3}
-          placeholder="Instructions for participants..."
+          placeholder={t('studioPage.configPanel.instructionsPlaceholder')}
         />
       </CollapsibleSection>
     </div>
