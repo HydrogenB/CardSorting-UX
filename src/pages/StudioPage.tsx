@@ -220,6 +220,58 @@ export default function StudioPage() {
         </main>
       </div>
 
+      {/* SEO-optimized Watermark Footer - Only in Edit Mode */}
+      {mode === 'edit' && (
+        <footer 
+          className="fixed bottom-3 right-3 px-3 py-2 bg-background/60 backdrop-blur-sm border border-border/30 rounded-lg text-[10px] text-muted-foreground/70 opacity-80 hover:opacity-100 transition-opacity select-none z-40"
+          itemScope 
+          itemType="https://schema.org/Person"
+        >
+          <div className="flex items-center gap-1.5 mb-1">
+            <span>by</span>
+            <a 
+              href="https://th.linkedin.com/in/jirads"
+              target="_blank"
+              rel="noopener noreferrer author"
+              className="font-medium hover:text-foreground transition-colors underline-offset-2 hover:underline"
+              itemProp="url"
+              title="Jirad Srirattana-arporn - Product Owner"
+            >
+              <span itemProp="name">Jirad Srirattana-arporn</span>
+            </a>
+            <meta itemProp="jobTitle" content="Product Owner" />
+          </div>
+          <div className="flex items-center gap-2">
+            <a 
+              href="https://github.com/HydrogenB/CardSorting-UX"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Star CardSorting-UX on GitHub"
+            >
+              <img 
+                src="https://img.shields.io/github/stars/HydrogenB/CardSorting-UX?style=social" 
+                alt="GitHub stars"
+                className="h-4"
+                loading="lazy"
+              />
+            </a>
+            <a 
+              href="https://github.com/HydrogenB/CardSorting-UX/fork"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Fork CardSorting-UX on GitHub"
+            >
+              <img 
+                src="https://img.shields.io/github/forks/HydrogenB/CardSorting-UX?style=social" 
+                alt="GitHub forks"
+                className="h-4"
+                loading="lazy"
+              />
+            </a>
+          </div>
+        </footer>
+      )}
+
       {/* Participant Modal */}
       {showParticipantModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">

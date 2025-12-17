@@ -15,29 +15,21 @@ Validate information architecture, test menu structures, and uncover users' ment
 [🚀 Try Live Demo](https://card-sorting-ux.vercel.app/) • [📖 Documentation](#-how-to-use) • [🐛 Report Bug](https://github.com/HydrogenB/CardSorting-UX/issues)
 
 </div>
-
 ---
 
-## 👨‍💻 Author
+<div align="center">
 
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://th.linkedin.com/in/jirads">
-        <img src="https://github.com/HydrogenB.png" width="100px;" alt="Jirad Srirattana-arporn"/>
-        <br />
-        <sub><b>Jirad Srirattana-arporn</b></sub>
-      </a>
-      <br />
-      <a href="https://github.com/HydrogenB" title="GitHub">💻</a>
-      <a href="https://th.linkedin.com/in/jirads" title="LinkedIn">💼</a>
-    </td>
-  </tr>
-</table>
+**⭐ Star this repo if it helped you!**
 
-- **GitHub**: [@HydrogenB](https://github.com/HydrogenB)
-- **LinkedIn**: [Jirad Srirattana-arporn](https://th.linkedin.com/in/jirads)
-- **Project**: [CardSorting-UX](https://github.com/HydrogenB/CardSorting-UX)
+Made with ❤️ by [Jirad Srirattana-arporn](https://th.linkedin.com/in/jirads)
+
+[![GitHub stars](https://img.shields.io/github/stars/HydrogenB/CardSorting-UX?style=social)](https://github.com/HydrogenB/CardSorting-UX)
+[![GitHub forks](https://img.shields.io/github/forks/HydrogenB/CardSorting-UX?style=social)](https://github.com/HydrogenB/CardSorting-UX/fork)
+
+[Back to Top ↑](#-card-sorting-platform---free-open-source-ux-research-tool)
+
+</div>
+
 
 ---
 
@@ -215,19 +207,30 @@ A: Yes, fully responsive with touch support for tablets and phones.
 
 - 🐛 **Issues**: [GitHub Issues](https://github.com/HydrogenB/CardSorting-UX/issues)
 - 💼 **LinkedIn**: [Jirad Srirattana-arporn](https://th.linkedin.com/in/jirads)
-- 💻 **GitHub**: [@HydrogenB](https://github.com/HydrogenB)
+- 💻 **GitHub**: [@HydrogenB](https://github.com/HydrogenB).
+
 
 ---
 
-<div align="center">
+## 👨‍💻 Author
 
-**⭐ Star this repo if it helped you!**
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://th.linkedin.com/in/jirads">
+        <img src="https://github.com/HydrogenB.png" width="100px;" alt="Jirad Srirattana-arporn"/>
+        <br />
+        <sub><b>Jirad Srirattana-arporn</b></sub>
+      </a>
+      <br />
+      <a href="https://github.com/HydrogenB" title="GitHub">💻</a>
+      <a href="https://th.linkedin.com/in/jirads" title="LinkedIn">💼</a>
+    </td>
+  </tr>
+</table>
 
-Made with ❤️ by [Jirad Srirattana-arporn](https://th.linkedin.com/in/jirads)
+- **GitHub**: [@HydrogenB](https://github.com/HydrogenB)
+- **LinkedIn**: [Jirad Srirattana-arporn](https://th.linkedin.com/in/jirads)
+- **Project**: [CardSorting-UX](https://github.com/HydrogenB/CardSorting-UX)
 
-[![GitHub stars](https://img.shields.io/github/stars/HydrogenB/CardSorting-UX?style=social)](https://github.com/HydrogenB/CardSorting-UX)
-[![GitHub forks](https://img.shields.io/github/forks/HydrogenB/CardSorting-UX?style=social)](https://github.com/HydrogenB/CardSorting-UX/fork)
 
-[Back to Top ↑](#-card-sorting-platform---free-open-source-ux-research-tool)
-
-</div>
