@@ -184,20 +184,28 @@ export default function StudioPage() {
               <div className="h-6 w-px bg-border mx-1" />
               <button
                 onClick={handleStartPreview}
-                className="px-4 py-1.5 text-xs font-medium bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-all flex items-center gap-2 shadow-sm"
+                className="px-4 py-2 text-sm font-semibold bg-gradient-to-r from-primary to-primary/70 text-primary-foreground rounded-md hover:opacity-95 transition-all flex items-center gap-2 shadow-lg shadow-primary/20 ring-1 ring-primary/30 hover:ring-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <Play className="w-3.5 h-3.5" />
                 {t('builderPage.actions.runStudy')}
               </button>
+              <span className="text-xs text-muted-foreground hidden sm:block">
+                To test, click Run Study
+              </span>
             </>
           ) : (
-            <button
-              onClick={handleExitPreview}
-              className="px-4 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all flex items-center gap-2"
-            >
-              <Settings2 className="w-3.5 h-3.5" />
-              {t('studioPage.backToEdit')}
-            </button>
+            <>
+              <Badge variant="warning" className="text-[10px] px-2 py-0.5">
+                Preview
+              </Badge>
+              <button
+                onClick={handleExitPreview}
+                className="px-4 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all flex items-center gap-2"
+              >
+                <Settings2 className="w-3.5 h-3.5" />
+                {t('studioPage.backToEdit')}
+              </button>
+            </>
           )}
         </div>
       </header>
@@ -213,6 +221,34 @@ export default function StudioPage() {
 
         {/* Sort Board / Main Area */}
         <main className="flex-1 overflow-hidden bg-muted/30 relative flex flex-col">
+          {mode === 'edit' && (
+            <div className="px-4 pt-3">
+              <div className="rounded-lg border border-border/50 bg-background/70 backdrop-blur-sm px-3 py-2">
+                <div className="flex items-center gap-2">
+                  <Badge variant="warning" className="text-[10px] px-2 py-0.5">
+                    Preview
+                  </Badge>
+                  <p className="text-xs text-muted-foreground">
+                    {t('studioPage.preview.description')}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+          {mode === 'preview' && (
+            <div className="px-4 pt-3">
+              <div className="rounded-lg border border-border/50 bg-background/70 backdrop-blur-sm px-3 py-2">
+                <div className="flex items-center gap-2">
+                  <Badge variant="warning" className="text-[10px] px-2 py-0.5">
+                    Preview
+                  </Badge>
+                  <p className="text-xs text-muted-foreground">
+                    You are currently in Preview mode.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
           <SortBoard 
             mode={mode} 
             participantName={mode === 'edit' ? 'Preview User' : participantName}
