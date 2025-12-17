@@ -110,14 +110,16 @@ export default function StudioPage() {
       addToast({ type: 'warning', title: t('studioPage.messages.addCategoriesForClosed') });
       return;
     }
+    // Set default datetime if name is empty
+    if (!participantName.trim()) {
+      const now = new Date();
+      const defaultName = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(now.getSeconds()).padStart(2, '0')}`;
+      setParticipantName(defaultName);
+    }
     setShowParticipantModal(true);
   };
 
   const handleConfirmStart = () => {
-    if (!participantName.trim()) {
-      addToast({ type: 'warning', title: t('runPage.messages.enterName') });
-      return;
-    }
     setShowParticipantModal(false);
     setMode('preview');
   };
@@ -300,7 +302,7 @@ export default function StudioPage() {
             
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1">
-                {t('runPage.participantInfo.nameLabel')} <span className="text-destructive">*</span>
+                {t('runPage.participantInfo.nameLabel')}
               </label>
               <input
                 type="text"
@@ -324,8 +326,7 @@ export default function StudioPage() {
               </button>
               <button
                 onClick={handleConfirmStart}
-                disabled={!participantName.trim()}
-                className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 disabled:opacity-50"
+                className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90"
               >
                 {t('runPage.participantInfo.startSession')}
               </button>

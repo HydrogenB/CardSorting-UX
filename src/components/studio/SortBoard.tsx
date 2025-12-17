@@ -189,7 +189,7 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
   return (
     <div className="h-full flex flex-col">
       {/* Action Bar */}
-      <div className="mb-4 flex items-center justify-end gap-2">
+      <div className="mb-4 p-3 flex items-center justify-end gap-2 bg-card rounded-lg border border-border/50 shadow-sm">
         <button
           onClick={handleReset}
           className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-all flex items-center gap-2"

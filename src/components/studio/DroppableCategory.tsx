@@ -95,7 +95,7 @@ export function DroppableCategory({
       
       {/* Cards Container */}
       <div className={cn(
-        'flex-1 p-3 space-y-2 overflow-y-auto',
+        'flex-1 p-4 space-y-2 overflow-y-auto',
         count === 0 && 'flex items-center justify-center',
         isOver && 'bg-primary/5'
       )}

@@ -407,7 +407,7 @@ export const translations: Record<Language, Translations> = {
       startCardSorting: 'Start Card Sorting',
       previewUser: 'Preview User',
       preview: {
-        label: 'Preview',
+        label: 'Study',
         toTestHint: 'To test, click Run Study',
         previewModeMessage: 'You are currently in Preview mode.',
         title: 'Sort Board Preview',
@@ -649,7 +649,7 @@ export const translations: Record<Language, Translations> = {
       startCardSorting: 'เริ่มจัดการ์ด',
       previewUser: 'ผู้ใช้พรีวิว',
       preview: {
-        label: 'พรีวิว',
+        label: 'การศึกษา',
         toTestHint: 'หากต้องการทดสอบ ให้คลิก "เริ่มการศึกษา"',
         previewModeMessage: 'ขณะนี้คุณอยู่ในโหมดพรีวิว',
         title: 'พรีวิวบอร์ดจัดการ์ด',
