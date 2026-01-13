@@ -1,115 +1,141 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
-    
+
     <!-- Primary Meta Tags -->
-    <title>CardSorting.io - Free UX Research Tool for Information Architecture</title>
-    <meta name="title" content="CardSorting.io - Free UX Research Tool for Information Architecture" />
-    <meta name="description" content="Free, open-source card sorting tool for UX designers and researchers. Create open, closed, or hybrid card sorts. Test information architecture, validate menu structures, and understand user mental models - 100% browser-based, no signup required." />
-    <meta name="keywords" content="card sorting, card sort tool, UX research, information architecture, IA testing, user experience, menu structure testing, usability testing, open source UX tool, free card sorting, drag and drop card sort, UX design tool, product design, mental model research, navigation testing, category validation" />
+    <title>
+      CardSorting - Free UX Research Tool for Information Architecture
+    </title>
+    <meta
+      name="title"
+      content="CardSorting - Free UX Research Tool for Information Architecture"
+    />
+    <meta
+      name="description"
+      content="Free, open-source card sorting tool for UX designers and researchers. Create open, closed, or hybrid card sorts. Test information architecture, validate menu structures, and understand user mental models - 100% browser-based, no signup required."
+    />
+    <meta
+      name="keywords"
+      content="card sorting, card sort tool, UX research, information architecture, IA testing, user experience, menu structure testing, usability testing, open source UX tool, free card sorting, drag and drop card sort, UX design tool, product design, mental model research, navigation testing, category validation"
+    />
     <meta name="author" content="Jirad Srirattana-arporn" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
     <meta name="googlebot" content="index, follow" />
     <link rel="canonical" href="https://cardsorting-ux.vercel.app/" />
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cardsorting-ux.vercel.app/" />
-    <meta property="og:title" content="CardSorting.io - Free UX Research Tool" />
-    <meta property="og:description" content="Create card sorting studies in seconds. Free, open-source, and privacy-focused. Test information architecture and validate menu structures directly in your browser." />
-    <meta property="og:image" content="https://cardsorting-ux.vercel.app/og-image.png" />
+    <meta property="og:title" content="CardSorting - Free UX Research Tool" />
+    <meta
+      property="og:description"
+      content="Create card sorting studies in seconds. Free, open-source, and privacy-focused. Test information architecture and validate menu structures directly in your browser."
+    />
+    <meta
+      property="og:image"
+      content="https://cardsorting-ux.vercel.app/og-image.png"
+    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="CardSorting.io" />
+    <meta property="og:site_name" content="CardSorting" />
     <meta property="og:locale" content="en_US" />
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://cardsorting-ux.vercel.app/" />
-    <meta name="twitter:title" content="CardSorting.io - Free UX Research Tool" />
-    <meta name="twitter:description" content="Create card sorting studies in seconds. Free, open-source, and privacy-focused. Test information architecture directly in your browser." />
-    <meta name="twitter:image" content="https://cardsorting-ux.vercel.app/og-image.png" />
+    <meta name="twitter:title" content="CardSorting - Free UX Research Tool" />
+    <meta
+      name="twitter:description"
+      content="Create card sorting studies in seconds. Free, open-source, and privacy-focused. Test information architecture directly in your browser."
+    />
+    <meta
+      name="twitter:image"
+      content="https://cardsorting-ux.vercel.app/og-image.png"
+    />
     <meta name="twitter:creator" content="@jirads" />
-    
+
     <!-- Additional SEO -->
     <meta name="theme-color" content="#6366f1" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="CardSorting.io" />
-    <meta name="application-name" content="CardSorting.io" />
+    <meta name="apple-mobile-web-app-title" content="CardSorting" />
+    <meta name="application-name" content="CardSorting" />
     <meta name="msapplication-TileColor" content="#6366f1" />
     <meta name="format-detection" content="telephone=no" />
-    
+
     <!-- Structured Data - WebApplication -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "CardSorting.io",
-      "alternateName": "Card Sorting Platform",
-      "description": "Free, open-source card sorting tool for UX research and information architecture testing. Create open, closed, or hybrid card sorts directly in your browser.",
-      "url": "https://cardsorting-ux.vercel.app/",
-      "applicationCategory": "DesignApplication",
-      "applicationSubCategory": "UX Research Tool",
-      "operatingSystem": "Any",
-      "browserRequirements": "Requires JavaScript. Works on Chrome, Firefox, Safari, Edge.",
-      "softwareVersion": "1.0.0",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock"
-      },
-      "author": {
-        "@type": "Person",
-        "name": "Jirad Srirattana-arporn",
-        "url": "https://th.linkedin.com/in/jirads"
-      },
-      "creator": {
-        "@type": "Person",
-        "name": "Jirad Srirattana-arporn"
-      },
-      "featureList": [
-        "Open card sorting",
-        "Closed card sorting", 
-        "Hybrid card sorting",
-        "Image support for cards and categories",
-        "Drag and drop interface",
-        "Export results to JSON",
-        "Privacy-focused - 100% browser-based",
-        "Works offline",
-        "No signup required",
-        "Multi-language support"
-      ],
-      "screenshot": "https://cardsorting-ux.vercel.app/og-image.png",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5",
-        "ratingCount": "1"
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "CardSorting",
+        "alternateName": "Card Sorting Platform",
+        "description": "Free, open-source card sorting tool for UX research and information architecture testing. Create open, closed, or hybrid card sorts directly in your browser.",
+        "url": "https://cardsorting-ux.vercel.app/",
+        "applicationCategory": "DesignApplication",
+        "applicationSubCategory": "UX Research Tool",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript. Works on Chrome, Firefox, Safari, Edge.",
+        "softwareVersion": "1.0.0",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Jirad Srirattana-arporn",
+          "url": "https://th.linkedin.com/in/jirads"
+        },
+        "creator": {
+          "@type": "Person",
+          "name": "Jirad Srirattana-arporn"
+        },
+        "featureList": [
+          "Open card sorting",
+          "Closed card sorting",
+          "Hybrid card sorting",
+          "Image support for cards and categories",
+          "Drag and drop interface",
+          "Export results to JSON",
+          "Privacy-focused - 100% browser-based",
+          "Works offline",
+          "No signup required",
+          "Multi-language support"
+        ],
+        "screenshot": "https://cardsorting-ux.vercel.app/og-image.png",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5",
+          "ratingCount": "1"
+        }
       }
-    }
     </script>
-    
+
     <!-- Structured Data - SoftwareApplication for broader reach -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "CardSorting.io",
-      "operatingSystem": "Web Browser",
-      "applicationCategory": "BusinessApplication",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "CardSorting",
+        "operatingSystem": "Web Browser",
+        "applicationCategory": "BusinessApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
       }
-    }
     </script>
   </head>
   <body>

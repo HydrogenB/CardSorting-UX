@@ -1,4 +1,4 @@
-# robots.txt for CardSorting.io
+# robots.txt for CardSorting
 # https://cardsorting-ux.vercel.app/
 
 User-agent: *

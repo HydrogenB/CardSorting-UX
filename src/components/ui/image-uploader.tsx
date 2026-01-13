@@ -7,10 +7,11 @@ interface ImageUploaderProps {
   value?: string; // base64 string
   onChange: (base64: string | undefined) => void;
   className?: string;
-  size?: 'sm' | 'md';
+  size?: 'xs' | 'sm' | 'md';
+  variant?: 'default' | 'icon';
 }
 
-export function ImageUploader({ value, onChange, className, size = 'md' }: ImageUploaderProps) {
+export function ImageUploader({ value, onChange, className, size = 'md', variant = 'default' }: ImageUploaderProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -45,6 +46,7 @@ export function ImageUploader({ value, onChange, className, size = 'md' }: Image
   };
 
   const sizeClasses = {
+    xs: 'w-6 h-6',
     sm: 'w-12 h-12',
     md: 'w-16 h-16',
   };
@@ -75,21 +77,22 @@ export function ImageUploader({ value, onChange, className, size = 'md' }: Image
           </button>
         </div>
       ) : (
+      ) : (
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={isLoading}
           className={cn(
-            'flex items-center justify-center rounded-lg border-2 border-dashed border-border',
-            'hover:border-primary hover:bg-primary/5 transition-colors',
-            'disabled:opacity-50 disabled:cursor-not-allowed',
+            'flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed',
+            variant === 'default' && 'rounded-lg border-2 border-dashed border-border hover:border-primary hover:bg-primary/5',
+            variant === 'icon' && 'text-muted-foreground hover:text-foreground hover:bg-muted p-1 rounded-md',
             sizeClasses[size]
           )}
         >
           {isLoading ? (
-            <Loader2 className="w-5 h-5 text-muted-foreground animate-spin" />
+            <Loader2 className="w-full h-full text-muted-foreground animate-spin p-0.5" />
           ) : (
-            <ImagePlus className="w-5 h-5 text-muted-foreground" />
+            <ImagePlus className="w-full h-full" />
           )}
         </button>
       )}

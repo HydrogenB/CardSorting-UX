@@ -52,9 +52,8 @@ export function SortableItem({
         !isDragging && 'border-border hover:border-primary/30 hover:shadow-md'
       )}
     >
-      {/* Image Banner */}
       <div className="relative">
-        {image ? (
+        {image && (
           <div className="relative group">
             <img 
               src={image} 
@@ -70,34 +69,46 @@ export function SortableItem({
               />
             </div>
           </div>
-        ) : (
-          <div className="h-24 bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center">
-            <ImageUploader
-              value={image}
-              onChange={onImageChange}
-              size="md"
-            />
-          </div>
         )}
         
-        {/* Drag Handle - top right */}
-        <button
-          type="button"
-          className="absolute top-2 left-2 p-1.5 rounded-lg bg-background/80 backdrop-blur-sm hover:bg-background cursor-grab active:cursor-grabbing touch-none shadow-sm"
-          {...attributes}
-          {...listeners}
-        >
-          <GripVertical className="w-4 h-4 text-muted-foreground" />
-        </button>
+        {/* Controls Row - Absolute if image, Relative if no image */}
+        <div className={cn(
+          "flex items-center justify-between px-2 py-1.5",
+          image ? "absolute top-0 inset-x-0 z-10" : "bg-muted/30 border-b border-border/50"
+        )}>
+           <div className="flex items-center gap-1">
+             <button
+              type="button"
+              className={cn(
+                "p-1.5 rounded-lg cursor-grab active:cursor-grabbing touch-none transition-colors",
+                image ? "bg-background/80 backdrop-blur-sm hover:bg-background shadow-sm" : "hover:bg-muted text-muted-foreground"
+              )}
+              {...attributes}
+              {...listeners}
+            >
+              <GripVertical className="w-4 h-4" />
+            </button>
+            {!image && (
+              <ImageUploader
+                value={image}
+                onChange={onImageChange}
+                size="xs"
+                variant="icon"
+              />
+            )}
+           </div>
 
-        {/* Delete - top right */}
-        <button
-          type="button"
-          onClick={onRemove}
-          className="absolute top-2 right-2 p-1.5 rounded-lg bg-background/80 backdrop-blur-sm hover:bg-destructive hover:text-destructive-foreground transition-colors shadow-sm"
-        >
-          <Trash2 className="w-4 h-4" />
-        </button>
+          <button
+            type="button"
+            onClick={onRemove}
+            className={cn(
+              "p-1.5 rounded-lg transition-colors hover:bg-destructive hover:text-destructive-foreground",
+               image ? "bg-background/80 backdrop-blur-sm shadow-sm" : "text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+            )}
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
       </div>
 
       {/* Content - below image */}

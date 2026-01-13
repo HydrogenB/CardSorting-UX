@@ -1,44 +1,48 @@
-import { useState, type ChangeEvent } from 'react';
-import { useBuilderStore } from '@/store/builderStore';
-import { downloadJson, readJsonFile } from '@/lib/download';
-import { validateTemplate } from '@/domain/schema';
-import type { StudyTemplate } from '@/domain/model';
-import { ConfigPanel } from '@/components/studio/ConfigPanel';
-import { SortBoard } from '@/components/studio/SortBoard';
-import { useToast } from '@/components/ui/toast';
-import { Badge } from '@/components/ui/badge';
-import { LanguageSwitcher, LanguageSwitcherCompact } from '@/components/ui/language-switcher';
-import { useI18n } from '@/contexts/i18n-context';
-import { 
-  Upload, 
-  Download, 
+import { useState, type ChangeEvent } from "react";
+import { useBuilderStore } from "@/store/builderStore";
+import { downloadJson, readJsonFile } from "@/lib/download";
+import { validateTemplate } from "@/domain/schema";
+import type { StudyTemplate } from "@/domain/model";
+import { ConfigPanel } from "@/components/studio/ConfigPanel";
+import { SortBoard } from "@/components/studio/SortBoard";
+import { useToast } from "@/components/ui/toast";
+import { Badge } from "@/components/ui/badge";
+import {
+  LanguageSwitcher,
+  LanguageSwitcherCompact,
+} from "@/components/ui/language-switcher";
+import { useI18n } from "@/contexts/i18n-context";
+import {
+  Upload,
+  Download,
   Play,
   Settings2,
   PanelLeftClose,
   PanelLeft,
   Layers,
-  LayoutGrid
-} from 'lucide-react';
+  LayoutGrid,
+  MoreVertical,
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-type Mode = 'edit' | 'preview';
+type Mode = "edit" | "preview";
 
 export default function StudioPage() {
-  const [mode, setMode] = useState<Mode>('edit');
+  const [mode, setMode] = useState<Mode>("edit");
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [participantName, setParticipantName] = useState('');
+  const [participantName, setParticipantName] = useState("");
   const [showParticipantModal, setShowParticipantModal] = useState(false);
-  
+
   const { addToast } = useToast();
   const { t } = useI18n();
-  
-  const { 
-    study, 
-    categories, 
-    cards, 
-    exportTemplate,
-    setStudy,
-    reset 
-  } = useBuilderStore();
+
+  const { study, categories, cards, exportTemplate, setStudy, reset } =
+    useBuilderStore();
 
   const handleImport = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -47,45 +51,60 @@ export default function StudioPage() {
     try {
       const data = await readJsonFile<StudyTemplate>(file);
       const validation = validateTemplate(data);
-      
+
       if (!validation.success) {
         addToast({
-          type: 'error',
-          title: t('studioPage.messages.invalidTemplate'),
-          description: validation.error.issues.map((i) => i.message).join(', '),
+          type: "error",
+          title: t("studioPage.messages.invalidTemplate"),
+          description: validation.error.issues.map((i) => i.message).join(", "),
         });
         return;
       }
-      
+
       // Load template into builder store
       reset();
       setStudy(data.study);
-      data.categories.forEach(cat => {
-        useBuilderStore.getState().addCategory(cat.label, cat.description, cat.image);
+      data.categories.forEach((cat) => {
+        useBuilderStore
+          .getState()
+          .addCategory(cat.label, cat.description, cat.image);
       });
-      data.cards.forEach(card => {
-        useBuilderStore.getState().addCard(card.label, card.description, card.image);
+      data.cards.forEach((card) => {
+        useBuilderStore
+          .getState()
+          .addCard(card.label, card.description, card.image);
       });
-      
+
       addToast({
-        type: 'success',
-        title: t('studioPage.messages.templateImported'),
-        description: t('studioPage.messages.loadedCardsAndCategories', { 
-          cards: data.cards.length, 
-          categories: data.categories.length 
+        type: "success",
+        title: t("studioPage.messages.templateImported"),
+        description: t("studioPage.messages.loadedCardsAndCategories", {
+          cards: data.cards.length,
+          categories: data.categories.length,
         }),
       });
     } catch {
-      addToast({ type: 'error', title: t('studioPage.messages.failedToReadTemplate') });
+      addToast({
+        type: "error",
+        title: t("studioPage.messages.failedToReadTemplate"),
+      });
     }
-    e.target.value = '';
+    e.target.value = "";
   };
 
   const handleLoadExample = async () => {
+    if (
+      !window.confirm(
+        "Are you sure? This will replace all existing data in the current study."
+      )
+    ) {
+      return;
+    }
+
     try {
-      const res = await fetch('/ExampleTemplate.json', { cache: 'no-cache' });
+      const res = await fetch("/ExampleTemplate.json", { cache: "no-cache" });
       if (!res.ok) {
-        alert(t('studioPage.messages.failedToReadTemplate'));
+        alert(t("studioPage.messages.failedToReadTemplate"));
         return;
       }
 
@@ -94,9 +113,9 @@ export default function StudioPage() {
 
       if (!validation.success) {
         alert(
-          t('studioPage.messages.invalidTemplate') +
-            '\n' +
-            validation.error.issues.map((i) => i.message).join('\n')
+          t("studioPage.messages.invalidTemplate") +
+            "\n" +
+            validation.error.issues.map((i) => i.message).join("\n")
         );
         return;
       }
@@ -104,49 +123,73 @@ export default function StudioPage() {
       reset();
       setStudy(data.study);
       data.categories.forEach((cat) => {
-        useBuilderStore.getState().addCategory(cat.label, cat.description, cat.image);
+        useBuilderStore
+          .getState()
+          .addCategory(cat.label, cat.description, cat.image);
       });
       data.cards.forEach((card) => {
-        useBuilderStore.getState().addCard(card.label, card.description, card.image);
+        useBuilderStore
+          .getState()
+          .addCard(card.label, card.description, card.image);
       });
     } catch {
-      alert(t('studioPage.messages.failedToReadTemplate'));
+      alert(t("studioPage.messages.failedToReadTemplate"));
     }
   };
 
   const handleExport = () => {
     if (!study.title.trim()) {
-      addToast({ type: 'warning', title: t('studioPage.messages.enterTitleBeforeExport') });
+      addToast({
+        type: "warning",
+        title: t("studioPage.messages.enterTitleBeforeExport"),
+      });
       return;
     }
     if (cards.length === 0) {
-      addToast({ type: 'warning', title: t('studioPage.messages.addCardBeforeExport') });
+      addToast({
+        type: "warning",
+        title: t("studioPage.messages.addCardBeforeExport"),
+      });
       return;
     }
-    
+
     const template = exportTemplate();
-    const filename = `template_${study.title.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '')}.json`;
+    const filename = `template_${study.title
+      .replace(/\s+/g, "_")
+      .replace(/[^a-zA-Z0-9_]/g, "")}.json`;
     downloadJson(template, filename);
     addToast({
-      type: 'success',
-      title: t('studioPage.messages.templateExported'),
+      type: "success",
+      title: t("studioPage.messages.templateExported"),
       description: filename,
     });
   };
 
   const handleStartPreview = () => {
     if (cards.length === 0) {
-      addToast({ type: 'warning', title: t('studioPage.messages.addCardsBeforeStart') });
+      addToast({
+        type: "warning",
+        title: t("studioPage.messages.addCardsBeforeStart"),
+      });
       return;
     }
-    if (study.sortType !== 'open' && categories.length === 0) {
-      addToast({ type: 'warning', title: t('studioPage.messages.addCategoriesForClosed') });
+    if (study.sortType !== "open" && categories.length === 0) {
+      addToast({
+        type: "warning",
+        title: t("studioPage.messages.addCategoriesForClosed"),
+      });
       return;
     }
     // Set default datetime if name is empty
     if (!participantName.trim()) {
       const now = new Date();
-      const defaultName = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(now.getSeconds()).padStart(2, '0')}`;
+      const defaultName = `${now.getFullYear()}${String(
+        now.getMonth() + 1
+      ).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}_${String(
+        now.getHours()
+      ).padStart(2, "0")}${String(now.getMinutes()).padStart(2, "0")}${String(
+        now.getSeconds()
+      ).padStart(2, "0")}`;
       setParticipantName(defaultName);
     }
     setShowParticipantModal(true);
@@ -154,12 +197,12 @@ export default function StudioPage() {
 
   const handleConfirmStart = () => {
     setShowParticipantModal(false);
-    setMode('preview');
+    setMode("preview");
   };
 
   const handleExitPreview = () => {
-    setMode('edit');
-    setParticipantName('');
+    setMode("edit");
+    setParticipantName("");
   };
 
   return (
@@ -170,18 +213,26 @@ export default function StudioPage() {
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-2 hover:bg-muted rounded-lg transition-colors"
-            title={sidebarOpen ? t('studioPage.hideSidebar') : t('studioPage.showSidebar')}
+            title={
+              sidebarOpen
+                ? t("studioPage.hideSidebar")
+                : t("studioPage.showSidebar")
+            }
           >
-            {sidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeft className="w-5 h-5" />}
+            {sidebarOpen ? (
+              <PanelLeftClose className="w-5 h-5" />
+            ) : (
+              <PanelLeft className="w-5 h-5" />
+            )}
           </button>
-          
+
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
               <LayoutGrid className="w-4 h-4 text-primary-foreground" />
             </div>
             <div>
               <h1 className="font-semibold text-lg leading-tight">
-                {study.title || t('studioPage.untitledStudy')}
+                {study.title || t("studioPage.untitledStudy")}
               </h1>
               <div className="flex items-center gap-2 mt-0.5">
                 <Badge variant="outline" className="text-[10px] px-1.5 py-0">
@@ -189,12 +240,12 @@ export default function StudioPage() {
                 </Badge>
                 <span className="text-xs text-muted-foreground flex items-center gap-1">
                   <Layers className="w-3 h-3" />
-                  {categories.length} {t('studioPage.categories')} · {cards.length} {t('studioPage.cards')}
+                  {categories.length} {t("studioPage.categories")} ·{" "}
+                  {cards.length} {t("studioPage.cards")}
                 </span>
               </div>
             </div>
           </div>
-          
         </div>
 
         <div className="flex items-center gap-2">
@@ -204,11 +255,11 @@ export default function StudioPage() {
           <div className="sm:hidden">
             <LanguageSwitcherCompact />
           </div>
-          {mode === 'edit' ? (
+          {mode === "edit" ? (
             <>
               <label className="px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all cursor-pointer flex items-center gap-2 hover:shadow-sm">
-                <Upload className="w-3.5 h-3.5" />
-                {t('common.import')}
+                <Download className="w-3.5 h-3.5" />
+                {t("common.import")}
                 <input
                   type="file"
                   accept=".json"
@@ -217,38 +268,44 @@ export default function StudioPage() {
                 />
               </label>
               <button
-                onClick={handleLoadExample}
-                className="px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all hover:shadow-sm"
-              >
-                Load Example
-              </button>
-              <button
                 onClick={handleExport}
                 className="px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all flex items-center gap-2 hover:shadow-sm"
               >
-                <Download className="w-3.5 h-3.5" />
-                {t('common.export')}
+                <Upload className="w-3.5 h-3.5" />
+                {t("common.export")}
               </button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="px-2 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all hover:shadow-sm">
+                    <MoreVertical className="w-3.5 h-3.5" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={handleLoadExample}>
+                    Load Example
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <div className="h-6 w-px bg-border mx-1" />
               <button
                 onClick={handleStartPreview}
                 className="px-4 py-2 text-sm font-semibold bg-gradient-to-r from-primary to-primary/70 text-primary-foreground rounded-md hover:opacity-95 transition-all flex items-center gap-2 shadow-lg shadow-primary/20 ring-1 ring-primary/30 hover:ring-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <Play className="w-3.5 h-3.5" />
-                {t('builderPage.actions.runStudy')}
+                {t("builderPage.actions.runStudy")}
               </button>
             </>
           ) : (
             <>
               <Badge variant="warning" className="text-[10px] px-2 py-0.5">
-                {t('studioPage.preview.label')}
+                {t("studioPage.preview.label")}
               </Badge>
               <button
                 onClick={handleExitPreview}
                 className="px-4 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-muted transition-all flex items-center gap-2"
               >
                 <Settings2 className="w-3.5 h-3.5" />
-                {t('studioPage.backToEdit')}
+                {t("studioPage.backToEdit")}
               </button>
             </>
           )}
@@ -258,7 +315,7 @@ export default function StudioPage() {
       {/* Main Content */}
       <div className="flex-1 flex overflow-hidden">
         {/* Sidebar */}
-        {sidebarOpen && mode === 'edit' && (
+        {sidebarOpen && mode === "edit" && (
           <aside className="w-80 border-r border-border bg-card overflow-y-auto shrink-0 flex flex-col">
             <ConfigPanel />
           </aside>
@@ -266,23 +323,25 @@ export default function StudioPage() {
 
         {/* Sort Board / Main Area */}
         <main className="flex-1 overflow-hidden bg-muted/30 relative flex flex-col">
-          <SortBoard 
-            mode={mode} 
-            participantName={mode === 'edit' ? t('studioPage.previewUser') : participantName}
+          <SortBoard
+            mode={mode}
+            participantName={
+              mode === "edit" ? t("studioPage.previewUser") : participantName
+            }
           />
         </main>
       </div>
 
       {/* SEO-optimized Watermark Footer - Only in Edit Mode */}
-      {mode === 'edit' && (
-        <footer 
+      {mode === "edit" && (
+        <footer
           className="fixed bottom-3 right-3 px-3 py-2 bg-background/60 backdrop-blur-sm border border-border/30 rounded-lg text-[10px] text-muted-foreground/70 opacity-80 hover:opacity-100 transition-opacity select-none z-40"
-          itemScope 
+          itemScope
           itemType="https://schema.org/Person"
         >
           <div className="flex items-center gap-1.5 mb-1">
             <span>by</span>
-            <a 
+            <a
               href="https://th.linkedin.com/in/jirads"
               target="_blank"
               rel="noopener noreferrer author"
@@ -295,14 +354,14 @@ export default function StudioPage() {
             <meta itemProp="jobTitle" content="Product Owner" />
           </div>
           <div className="flex items-center gap-2">
-            <a 
+            <a
               href="https://github.com/HydrogenB/CardSorting-UX"
               target="_blank"
               rel="noopener noreferrer"
               title="Star CardSorting-UX on GitHub"
             >
-              <img 
-                src="https://img.shields.io/github/stars/HydrogenB/CardSorting-UX?style=social" 
+              <img
+                src="https://img.shields.io/github/stars/HydrogenB/CardSorting-UX?style=social"
                 alt="GitHub stars"
                 className="h-4"
                 loading="lazy"
@@ -316,26 +375,30 @@ export default function StudioPage() {
       {showParticipantModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-card p-6 rounded-lg shadow-xl w-full max-w-md">
-            <h2 className="text-lg font-semibold mb-4">{t('studioPage.startCardSorting')}</h2>
-            
+            <h2 className="text-lg font-semibold mb-4">
+              {t("studioPage.startCardSorting")}
+            </h2>
+
             <div className="mb-4 p-3 bg-muted rounded-md">
-              <p className="text-sm text-muted-foreground">{study.instructionsMarkdown}</p>
+              <p className="text-sm text-muted-foreground">
+                {study.instructionsMarkdown}
+              </p>
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1">
-                {t('runPage.participantInfo.nameLabel')}
+                {t("runPage.participantInfo.nameLabel")}
               </label>
               <input
                 type="text"
                 value={participantName}
                 onChange={(e) => setParticipantName(e.target.value)}
                 className="w-full px-3 py-2 border border-input rounded-md bg-background"
-                placeholder={t('runPage.participantInfo.namePlaceholder')}
+                placeholder={t("runPage.participantInfo.namePlaceholder")}
                 autoFocus
               />
               <p className="text-xs text-muted-foreground mt-1">
-                {t('runPage.nameAliasHint')}
+                {t("runPage.nameAliasHint")}
               </p>
             </div>
 
@@ -344,13 +407,13 @@ export default function StudioPage() {
                 onClick={() => setShowParticipantModal(false)}
                 className="flex-1 px-4 py-2 border border-border rounded-md hover:bg-muted"
               >
-                {t('common.cancel')}
+                {t("common.cancel")}
               </button>
               <button
                 onClick={handleConfirmStart}
                 className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90"
               >
-                {t('runPage.participantInfo.startSession')}
+                {t("runPage.participantInfo.startSession")}
               </button>
             </div>
           </div>
