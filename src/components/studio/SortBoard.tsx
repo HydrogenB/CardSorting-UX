@@ -7,8 +7,10 @@ import {
   KeyboardSensor,
   useSensor,
   useSensors,
-  type DragStartEvent,
-  type DragEndEvent,
+  DragStartEvent,
+  DragEndEvent,
+  MeasuringStrategy,
+  pointerWithin,
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { useBuilderStore } from '@/store/builderStore';
@@ -43,6 +45,7 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
   
   const handleResizeStart = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation(); // Prevent dnd-kit from catching this as a drag
     setIsResizing(true);
   };
 
@@ -283,7 +286,12 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
       {/* Sort Board */}
       <DndContext
         sensors={sensors}
-        collisionDetection={closestCenter}
+        collisionDetection={pointerWithin}
+        measuring={{
+          droppable: {
+            strategy: MeasuringStrategy.Always,
+          },
+        }}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
@@ -292,19 +300,22 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
         >
           {/* Unsorted Pile (Resizable Sidebar) */}
           <div 
-            className="flex flex-col gap-4 overflow-y-auto p-2 border-r border-border/50 relative group bg-background/50 h-full"
-            style={{ width: sidebarWidth, minWidth: sidebarWidth, transition: isResizing ? 'none' : 'width 0.2s ease' }}
+            className="flex flex-col gap-4 overflow-y-auto p-2 border-r border-border/40 relative flex-shrink-0 bg-muted/10"
+            style={{ width: sidebarWidth, transition: isResizing ? 'none' : 'width 0.2s ease' }}
           >
-            <div className="flex items-center justify-between px-1">
-               <h3 className="text-sm font-medium text-muted-foreground ml-1">
+            <div className="flex items-center justify-between px-2 py-2 sticky top-0 bg-background/95 backdrop-blur z-10 border-b border-border/40 mb-2">
+               <h3 className="text-sm font-semibold text-foreground/80 flex items-center gap-2">
                  {t('runPage.sorting.unsortedCards')}
+                 <span className="text-xs font-normal text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                   {unsortedCards.length}
+                 </span>
                </h3>
                <button 
                  onClick={() => setSidebarWidth(prev => prev === 250 ? 380 : 250)}
-                 className="p-1 hover:bg-muted rounded-md text-muted-foreground transition-colors"
+                 className="p-1.5 hover:bg-muted rounded-md text-muted-foreground hover:text-foreground transition-colors"
                  title="Toggle auto size"
                >
-                 <Maximize2 className="w-3.5 h-3.5" />
+                 <Maximize2 className="w-4 h-4" />
                </button>
             </div>
 
@@ -313,7 +324,7 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
               title="" 
               count={unsortedCards.length}
               variant="unsorted"
-              className="mt-0"
+              className="mt-0 border-0 bg-transparent shadow-none"
               hideHeader
             >
               {unsortedCards.map(card => (
@@ -324,14 +335,14 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
 
           {/* Resize Handle */}
           <div
-            className="w-1.5 h-full cursor-col-resize hover:bg-primary/20 active:bg-primary/40 flex items-center justify-center transition-colors z-10 -ml-0.5"
+            className="w-4 h-full cursor-col-resize hover:bg-primary/10 active:bg-primary/20 flex items-center justify-center transition-colors z-20 -ml-2 group touch-none select-none relative"
             onMouseDown={handleResizeStart}
           >
-            <div className="h-8 w-1 rounded-full bg-border group-hover:bg-primary/50 transition-colors" />
+            <div className="h-12 w-1 rounded-full bg-border group-hover:bg-primary/40 group-active:bg-primary transition-all duration-300" />
           </div>
 
           {/* Categories Grid (Main Area) */}
-          <div className="flex-1 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto content-start p-4">
+          <div className="flex-1 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 overflow-y-auto content-start p-6 bg-muted/5">
             {categories.map(category => (
               <DroppableCategory
                 key={category.id}

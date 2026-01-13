@@ -36,12 +36,12 @@ export function DroppableCategory({
     <div
       ref={setNodeRef}
       className={cn(
-        'flex flex-col rounded-xl border-2 transition-all duration-300 min-h-[200px] overflow-hidden',
-        'shadow-sm hover:shadow-md',
-        variant === 'unsorted' && 'border-slate-300 bg-slate-50',
-        variant === 'unsure' && 'border-amber-300 bg-amber-50',
-        variant === 'default' && 'border-border bg-card',
-        isOver && 'border-primary bg-primary/5 scale-[1.02] shadow-lg ring-2 ring-primary/20',
+        'flex flex-col rounded-xl border transition-all duration-300 min-h-[180px] overflow-hidden',
+        'shadow-[0_2px_4px_rgba(0,0,0,0.02)]',
+        variant === 'unsorted' && 'border-transparent bg-transparent',
+        variant === 'unsure' && 'border-amber-200/50 bg-amber-50/30',
+        variant === 'default' && 'border-border/60 bg-card/50 hover:bg-card',
+        isOver && 'border-primary/50 bg-primary/5 ring-4 ring-primary/5 shadow-lg scale-[1.01]',
         className
       )}
     >
@@ -67,30 +67,27 @@ export function DroppableCategory({
         </div>
       ) : (
         <div className={cn(
-          'px-4 py-3 border-b font-medium text-sm flex items-center justify-between flex-shrink-0',
-          variant === 'unsure' && 'border-amber-200 bg-amber-100/50',
-          variant === 'unsorted' && 'border-slate-200 bg-slate-100/50',
-          variant === 'default' && 'border-border/50 bg-muted/30',
-          isOver && 'bg-primary/10 border-primary/30'
+          'px-4 py-3 border-b flex items-center justify-between flex-shrink-0 backdrop-blur-sm',
+          variant === 'unsure' && 'border-amber-100 bg-amber-50/50',
+          variant === 'unsorted' && 'border-transparent',
+          variant === 'default' && 'border-border/40 bg-muted/20',
         )}>
-          <div className="flex items-center gap-2 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
             <div className={cn(
-              'w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0',
-              variant === 'unsure' && 'bg-amber-200 text-amber-700',
-              variant === 'unsorted' && 'bg-slate-200 text-slate-600',
-              variant === 'default' && 'bg-primary/10 text-primary',
-              isOver && 'bg-primary text-primary-foreground'
+              'w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors',
+              'bg-background border shadow-sm',
+              variant === 'unsure' && 'text-amber-600',
+              variant === 'unsorted' && 'text-muted-foreground',
+              variant === 'default' && 'text-primary',
+              isOver && 'text-primary bg-primary/10 border-primary/20'
             )}>
-              <Icon className="w-3.5 h-3.5" />
+              <Icon className="w-4 h-4" />
             </div>
-            <span className="font-semibold truncate">{title}</span>
+            <span className="font-semibold text-foreground/80 truncate text-sm">{title}</span>
           </div>
           <span className={cn(
-            'text-xs font-bold px-2 py-1 rounded-full min-w-[24px] text-center flex-shrink-0',
-            variant === 'unsure' && 'bg-amber-200 text-amber-800',
-            variant === 'unsorted' && 'bg-slate-200 text-slate-700',
-            variant === 'default' && 'bg-primary/10 text-primary',
-            count === 0 && 'opacity-50',
+            'text-[10px] font-bold px-2 py-0.5 rounded-full min-w-[20px] text-center flex-shrink-0 transition-colors',
+            'bg-muted text-muted-foreground',
             isOver && 'bg-primary text-primary-foreground'
           )}>
             {count}
@@ -100,29 +97,35 @@ export function DroppableCategory({
       
       {/* Cards Container */}
       <div className={cn(
-        'flex-1 p-4 space-y-2 overflow-y-auto',
+        'flex-1 p-3 space-y-2 overflow-y-auto min-h-0',
         count === 0 && 'flex items-center justify-center',
-        isOver && 'bg-primary/5'
       )}
       style={{ position: 'relative', zIndex: 0 }}
       >
-        {count === 0 ? (
-          <div className="text-center py-4">
-            <Icon className={cn(
-              'w-6 h-6 mx-auto mb-2',
-              variant === 'unsure' && 'text-amber-400',
-              variant === 'unsorted' && 'text-slate-400',
-              variant === 'default' && 'text-primary/40',
-              isOver && 'text-primary animate-bounce'
-            )} />
-            <p className={cn(
-              'text-xs text-muted-foreground',
-              isOver && 'text-primary font-medium'
+        {children}
+        
+        {count === 0 && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 opacity-0 hover:opacity-100 transition-opacity duration-200 group-hover:opacity-100 pointer-events-none">
+            <div className={cn(
+              "p-3 rounded-full bg-muted/50 mb-2 transition-transform duration-300",
+              isOver && "scale-110 bg-primary/10"
             )}>
-              {isOver ? 'Drop here!' : 'Drop cards here'}
+              <Icon className={cn(
+                'w-5 h-5',
+                variant === 'unsure' && 'text-amber-400',
+                variant === 'unsorted' && 'text-muted-foreground',
+                variant === 'default' && 'text-muted-foreground/60',
+                isOver && 'text-primary'
+              )} />
+            </div>
+            <p className={cn(
+              'text-xs font-medium text-muted-foreground/60',
+              isOver && 'text-primary'
+            )}>
+              {isOver ? 'Drop here' : 'Empty'}
             </p>
           </div>
-        ) : children}
+        )}
       </div>
     </div>
   );

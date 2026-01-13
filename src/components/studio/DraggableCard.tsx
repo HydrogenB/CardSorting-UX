@@ -14,28 +14,13 @@ export function DraggableCard({ card }: DraggableCardProps) {
 
   const hasImage = !!card.image;
 
-  // Hide the original card while dragging - DragOverlay will show the moving card
   if (isDragging) {
     return (
       <div
         ref={setNodeRef}
-        className="opacity-40 border-2 border-dashed border-primary/50 rounded-lg bg-primary/5"
+        className="opacity-50 border-2 border-dashed border-primary/40 rounded-xl bg-primary/5 h-[80px]"
         style={{ touchAction: 'none' }}
-      >
-        {hasImage ? (
-          <>
-            <div className="aspect-video" />
-            <div className="p-2">
-              <p className="text-xs font-medium truncate text-transparent">{card.label}</p>
-            </div>
-          </>
-        ) : (
-          <div className="p-3 flex items-center gap-2">
-            <div className="w-4 h-4" />
-            <p className="text-sm font-medium text-transparent opacity-0 select-none">{card.label}</p>
-          </div>
-        )}
-      </div>
+      />
     );
   }
 
@@ -44,46 +29,41 @@ export function DraggableCard({ card }: DraggableCardProps) {
       ref={setNodeRef}
       style={{ touchAction: 'none' }}
       className={cn(
-        'group bg-background border rounded-lg overflow-hidden',
+        'group relative bg-card border rounded-xl p-3',
         'cursor-grab active:cursor-grabbing select-none',
-        'hover:border-primary/50 hover:shadow-md',
-        'transition-shadow duration-200 ease-out',
-        'border-border'
+        'hover:border-primary/50 hover:shadow-[0_2px_8px_-2px_rgba(0,0,0,0.1)]',
+        'transition-all duration-200 ease-out',
+        'border-border/60 shadow-sm flex items-start gap-3'
       )}
       {...attributes}
       {...listeners}
     >
-      {hasImage ? (
-        <>
-          <div className="relative aspect-video">
+      <div className="mt-1 text-muted-foreground/40 group-hover:text-primary/60 transition-colors">
+        <GripVertical className="w-4 h-4" />
+      </div>
+
+      <div className="flex-1 min-w-0 flex justify-between gap-3">
+        <div className="space-y-1.5 pt-0.5">
+          <p className="text-sm font-medium leading-snug break-words text-foreground/90">
+            {card.label}
+          </p>
+          {card.description && (
+            <p className="text-xs text-muted-foreground leading-relaxed break-words line-clamp-2">
+              {card.description}
+            </p>
+          )}
+        </div>
+
+        {hasImage && (
+          <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-muted flex-shrink-0 border border-border/50 shadow-sm">
             <img 
               src={card.image} 
-              alt={card.label}
-              className="absolute inset-0 w-full h-full object-cover"
+              alt="" 
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-            <div className="absolute top-2 left-2 p-1 rounded bg-black/30 backdrop-blur-sm">
-              <GripVertical className="w-3 h-3 text-white" />
-            </div>
           </div>
-          <div className="p-2">
-            <p className="text-xs font-medium break-words leading-tight">{card.label}</p>
-            {card.description && (
-              <p className="text-[10px] text-muted-foreground break-words leading-tight mt-0.5">{card.description}</p>
-            )}
-          </div>
-        </>
-      ) : (
-        <div className="p-3 flex items-start gap-2">
-          <GripVertical className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-medium break-words leading-snug">{card.label}</p>
-            {card.description && (
-              <p className="text-xs text-muted-foreground break-words leading-snug mt-0.5">{card.description}</p>
-            )}
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
