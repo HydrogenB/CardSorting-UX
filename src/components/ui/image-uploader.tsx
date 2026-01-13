@@ -77,7 +77,7 @@ export function ImageUploader({ value, onChange, className, size = 'md', variant
           </button>
         </div>
       ) : (
-      ) : (
+
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
