@@ -15,7 +15,7 @@ import { useBuilderStore } from '@/store/builderStore';
 import { downloadJson } from '@/lib/download';
 import { DroppableCategory } from './DroppableCategory';
 import { DraggableCard } from './DraggableCard';
-import { Download, RotateCcw, Maximize2, GripVertical } from 'lucide-react';
+import { Download, RotateCcw, Maximize2 } from 'lucide-react';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { useToast } from '@/components/ui/toast';
 import { useI18n } from '@/contexts/i18n-context';

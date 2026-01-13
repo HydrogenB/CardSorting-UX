@@ -8,6 +8,8 @@ interface DroppableCategoryProps {
   count: number;
   image?: string;
   variant?: 'default' | 'unsorted' | 'unsure';
+  hideHeader?: boolean;
+  className?: string;
   children: React.ReactNode;
 }
 
@@ -23,6 +25,8 @@ export function DroppableCategory({
   count,
   image,
   variant = 'default',
+  hideHeader = false,
+  className,
   children 
 }: DroppableCategoryProps) {
   const { isOver, setNodeRef } = useDroppable({ id });
@@ -37,11 +41,12 @@ export function DroppableCategory({
         variant === 'unsorted' && 'border-slate-300 bg-slate-50',
         variant === 'unsure' && 'border-amber-300 bg-amber-50',
         variant === 'default' && 'border-border bg-card',
-        isOver && 'border-primary bg-primary/5 scale-[1.02] shadow-lg ring-2 ring-primary/20'
+        isOver && 'border-primary bg-primary/5 scale-[1.02] shadow-lg ring-2 ring-primary/20',
+        className
       )}
     >
       {/* Category Header */}
-      {image ? (
+      {!hideHeader && (image ? (
         <div className="relative aspect-video flex-shrink-0">
           <img 
             src={image} 
@@ -91,7 +96,7 @@ export function DroppableCategory({
             {count}
           </span>
         </div>
-      )}
+      ))}
       
       {/* Cards Container */}
       <div className={cn(
