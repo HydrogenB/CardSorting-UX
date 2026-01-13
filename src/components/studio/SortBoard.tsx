@@ -15,7 +15,7 @@ import { useBuilderStore } from '@/store/builderStore';
 import { downloadJson } from '@/lib/download';
 import { DroppableCategory } from './DroppableCategory';
 import { DraggableCard } from './DraggableCard';
-import { Download, RotateCcw } from 'lucide-react';
+import { Download, RotateCcw, Maximize2, GripVertical } from 'lucide-react';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { useToast } from '@/components/ui/toast';
 import { useI18n } from '@/contexts/i18n-context';
@@ -38,6 +38,35 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
   const [, setUndoStack] = useState<CardPlacement[]>([]);
   const { addToast } = useToast();
   const { t } = useI18n();
+  const [sidebarWidth, setSidebarWidth] = useState(250);
+  const [isResizing, setIsResizing] = useState(false);
+  
+  const handleResizeStart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsResizing(true);
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing) return;
+      const newWidth = Math.max(200, Math.min(600, e.clientX - 20)); // Limit width between 200px and 600px
+      setSidebarWidth(newWidth);
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+    };
+
+    if (isResizing) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isResizing]);
 
   // Enable keyboard shortcuts
   useKeyboardShortcuts();
@@ -258,14 +287,34 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex-1 grid grid-cols-[250px_1fr] gap-4 overflow-hidden">
-          {/* Unsorted Pile */}
-          <div className="flex flex-col gap-4 overflow-y-auto p-2">
+        <div 
+          className="flex-1 overflow-hidden flex"
+        >
+          {/* Unsorted Pile (Resizable Sidebar) */}
+          <div 
+            className="flex flex-col gap-4 overflow-y-auto p-2 border-r border-border/50 relative group bg-background/50 h-full"
+            style={{ width: sidebarWidth, minWidth: sidebarWidth, transition: isResizing ? 'none' : 'width 0.2s ease' }}
+          >
+            <div className="flex items-center justify-between px-1">
+               <h3 className="text-sm font-medium text-muted-foreground ml-1">
+                 {t('runPage.sorting.unsortedCards')}
+               </h3>
+               <button 
+                 onClick={() => setSidebarWidth(prev => prev === 250 ? 380 : 250)}
+                 className="p-1 hover:bg-muted rounded-md text-muted-foreground transition-colors"
+                 title="Toggle auto size"
+               >
+                 <Maximize2 className="w-3.5 h-3.5" />
+               </button>
+            </div>
+
             <DroppableCategory
               id="unsorted"
-              title="Unsorted Cards"
+              title="" 
               count={unsortedCards.length}
               variant="unsorted"
+              className="mt-0"
+              hideHeader
             >
               {unsortedCards.map(card => (
                 <DraggableCard key={card.id} card={card} />
@@ -273,8 +322,16 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
             </DroppableCategory>
           </div>
 
-          {/* Categories Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto content-start p-2">
+          {/* Resize Handle */}
+          <div
+            className="w-1.5 h-full cursor-col-resize hover:bg-primary/20 active:bg-primary/40 flex items-center justify-center transition-colors z-10 -ml-0.5"
+            onMouseDown={handleResizeStart}
+          >
+            <div className="h-8 w-1 rounded-full bg-border group-hover:bg-primary/50 transition-colors" />
+          </div>
+
+          {/* Categories Grid (Main Area) */}
+          <div className="flex-1 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto content-start p-4">
             {categories.map(category => (
               <DroppableCategory
                 key={category.id}
