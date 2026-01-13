@@ -32,7 +32,7 @@ export function DraggableCard({ card }: DraggableCardProps) {
         ) : (
           <div className="p-3 flex items-center gap-2">
             <div className="w-4 h-4" />
-            <p className="text-sm font-medium truncate text-transparent">{card.label}</p>
+            <p className="text-sm font-medium text-transparent opacity-0 select-none">{card.label}</p>
           </div>
         )}
       </div>
@@ -67,19 +67,19 @@ export function DraggableCard({ card }: DraggableCardProps) {
             </div>
           </div>
           <div className="p-2">
-            <p className="text-xs font-medium truncate">{card.label}</p>
+            <p className="text-xs font-medium break-words leading-tight">{card.label}</p>
             {card.description && (
-              <p className="text-[10px] text-muted-foreground truncate">{card.description}</p>
+              <p className="text-[10px] text-muted-foreground break-words leading-tight mt-0.5">{card.description}</p>
             )}
           </div>
         </>
       ) : (
-        <div className="p-3 flex items-center gap-2">
-          <GripVertical className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+        <div className="p-3 flex items-start gap-2">
+          <GripVertical className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-medium truncate">{card.label}</p>
+            <p className="text-sm font-medium break-words leading-snug">{card.label}</p>
             {card.description && (
-              <p className="text-xs text-muted-foreground truncate">{card.description}</p>
+              <p className="text-xs text-muted-foreground break-words leading-snug mt-0.5">{card.description}</p>
             )}
           </div>
         </div>
