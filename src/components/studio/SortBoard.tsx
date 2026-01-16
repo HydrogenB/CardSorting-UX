@@ -2,13 +2,12 @@ import { useState, useEffect, useMemo } from 'react';
 import {
   DndContext,
   DragOverlay,
-  closestCenter,
   PointerSensor,
   KeyboardSensor,
   useSensor,
   useSensors,
-  DragStartEvent,
-  DragEndEvent,
+  type DragStartEvent,
+  type DragEndEvent,
   MeasuringStrategy,
   pointerWithin,
 } from '@dnd-kit/core';
