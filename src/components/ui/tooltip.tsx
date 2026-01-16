@@ -38,7 +38,7 @@ export function Tooltip({
 }: TooltipProps) {
   const [show, setShow] = React.useState(false);
   const [delayedShow, setDelayedShow] = React.useState(false);
-  const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const [tooltipId] = React.useState(() => `tooltip-${++tooltipCounter}`);
 
   const positions = {

@@ -77,7 +77,7 @@ export function useLiveRegion(options: UseLiveRegionOptions = {}) {
   
   const [announcement, setAnnouncement] = React.useState('');
   const [politeness, setPoliteness] = React.useState<'polite' | 'assertive'>(defaultPoliteness);
-  const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const announce = React.useCallback(
     (message: string, opts?: { politeness?: 'polite' | 'assertive'; clearAfter?: number }) => {
