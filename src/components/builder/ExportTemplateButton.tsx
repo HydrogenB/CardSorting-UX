@@ -57,7 +57,7 @@ export function ExportTemplateButton() {
     const schemaValidation = validateTemplate(template);
 
     if (!schemaValidation.success) {
-      setErrors(schemaValidation.error.issues.map((issue) => issue.message));
+      setErrors(schemaValidation.error?.issues.map((issue) => issue.message) ?? ['Validation failed']);
       return;
     }
 

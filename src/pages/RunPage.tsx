@@ -34,7 +34,7 @@ export default function RunPage() {
       const validation = validateTemplate(data);
       
       if (!validation.success) {
-        alert(t('runPage.messages.invalidTemplate') + '\n' + validation.error.issues.map((issue) => issue.message).join('\n'));
+        alert(t('runPage.messages.invalidTemplate') + '\n' + (validation.error?.issues.map((issue) => issue.message).join('\n') ?? 'Validation failed'));
         return;
       }
       

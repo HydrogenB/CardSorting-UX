@@ -35,7 +35,6 @@ export function DraggableCard({ card, showHandle = true, index = 0 }: DraggableC
     transform: CSS.Transform.toString(transform),
     transition: transition || 'transform 200ms cubic-bezier(0.25, 1, 0.5, 1)',
     touchAction: 'none',
-    // Stagger animation delay
     animationDelay: `${index * 50}ms`,
   };
 
@@ -60,6 +59,8 @@ export function DraggableCard({ card, showHandle = true, index = 0 }: DraggableC
     <div
       ref={setNodeRef}
       style={style}
+      {...attributes}
+      {...listeners}
       role="listitem"
       aria-label={`Card: ${card.label}`}
       aria-describedby={card.description ? `card-desc-${card.id}` : undefined}
@@ -90,8 +91,6 @@ export function DraggableCard({ card, showHandle = true, index = 0 }: DraggableC
         // Entry animation
         'animate-slide-up-fade'
       )}
-      {...attributes}
-      {...listeners}
     >
       {/* Drag Handle with hover animation */}
       {showHandle && (

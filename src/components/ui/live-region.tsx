@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 
-export interface LiveRegionProps extends React.HTMLAttributes<HTMLDivElement> {
+/** Valid aria-relevant attribute values */
+type AriaRelevant = 'additions' | 'removals' | 'text' | 'all' | 'additions removals' | 'additions text' | 'removals additions' | 'removals text' | 'text additions' | 'text removals';
+
+export interface LiveRegionProps {
   /** Politeness level for screen reader announcements */
   politeness?: 'polite' | 'assertive' | 'off';
   /** Accessible label for the region */
@@ -9,9 +12,11 @@ export interface LiveRegionProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Whether to also make the region atomic */
   atomic?: boolean;
   /** What types of changes are relevant */
-  relevant?: 'additions' | 'removals' | 'text' | 'all';
+  relevant?: AriaRelevant;
   /** Content to announce */
   children: React.ReactNode;
+  /** Additional CSS classes */
+  className?: string;
 }
 
 /**
@@ -24,35 +29,26 @@ export interface LiveRegionProps extends React.HTMLAttributes<HTMLDivElement> {
  * </LiveRegion>
  * ```
  */
-const LiveRegion = React.forwardRef<HTMLDivElement, LiveRegionProps>(
-  (
-    {
-      politeness = 'polite',
-      'aria-label': ariaLabel,
-      atomic = true,
-      relevant = 'additions text',
-      children,
-      className,
-      ...props
-    },
-    ref
-  ) => {
-    return (
-      <div
-        ref={ref}
-        aria-live={politeness}
-        aria-label={ariaLabel}
-        aria-atomic={atomic}
-        aria-relevant={relevant}
-        className={cn('sr-only', className)}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  }
-);
-LiveRegion.displayName = 'LiveRegion';
+export function LiveRegion({
+  politeness = 'polite',
+  'aria-label': ariaLabel,
+  atomic = true,
+  relevant = 'additions text',
+  children,
+  className,
+}: LiveRegionProps) {
+  return (
+    <div
+      aria-live={politeness}
+      aria-label={ariaLabel}
+      aria-atomic={atomic}
+      aria-relevant={relevant}
+      className={cn('sr-only', className)}
+    >
+      {children}
+    </div>
+  );
+}
 
 export interface UseLiveRegionOptions {
   /** Default politeness level */
@@ -128,5 +124,3 @@ export function useLiveRegion(options: UseLiveRegionOptions = {}) {
 
   return { announcement, politeness, announce, clear };
 }
-
-export { LiveRegion };

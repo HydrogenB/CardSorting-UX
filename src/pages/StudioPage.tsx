@@ -56,7 +56,7 @@ export default function StudioPage() {
         addToast({
           type: "error",
           title: t("studioPage.messages.invalidTemplate"),
-          description: validation.error.issues.map((i) => i.message).join(", "),
+          description: validation.error?.issues.map((i) => i.message).join(", ") ?? "Validation failed",
         });
         return;
       }
@@ -115,7 +115,7 @@ export default function StudioPage() {
         alert(
           t("studioPage.messages.invalidTemplate") +
             "\n" +
-            validation.error.issues.map((i) => i.message).join("\n")
+            (validation.error?.issues.map((i) => i.message).join("\n") ?? "Validation failed")
         );
         return;
       }

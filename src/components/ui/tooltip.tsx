@@ -16,6 +16,8 @@ export interface TooltipProps {
   disabled?: boolean;
 }
 
+let tooltipCounter = 0;
+
 /**
  * Tooltip component for displaying additional information on hover or focus
  * 
@@ -37,7 +39,7 @@ export function Tooltip({
   const [show, setShow] = React.useState(false);
   const [delayedShow, setDelayedShow] = React.useState(false);
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
-  const tooltipId = React.useId();
+  const [tooltipId] = React.useState(() => `tooltip-${++tooltipCounter}`);
 
   const positions = {
     top: 'bottom-full left-1/2 -translate-x-1/2 mb-2',
