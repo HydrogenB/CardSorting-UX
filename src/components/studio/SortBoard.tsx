@@ -271,7 +271,6 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
           <RotateCcw className="w-4 h-4" />
           Reset
         </button>
-        {mode === 'preview' && (
           <button
             onClick={handleExportResult}
             disabled={study.settings.requireAllCardsSorted && unsortedCards.length > 0}
@@ -280,7 +279,6 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
             <Download className="w-4 h-4" />
             Export Result
           </button>
-        )}
       </div>
 
       {/* Sort Board */}
