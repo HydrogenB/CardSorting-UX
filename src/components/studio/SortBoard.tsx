@@ -272,8 +272,7 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
         </button>
           <button
             onClick={handleExportResult}
-            disabled={study.settings.requireAllCardsSorted && unsortedCards.length > 0}
-            className="px-4 py-2 text-sm bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:opacity-90 disabled:opacity-50 disabled:from-gray-400 disabled:to-gray-500 transition-all flex items-center gap-2 shadow-md"
+            className="px-4 py-2 text-sm bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-95 transition-all flex items-center gap-2 shadow-md"
           >
             <Download className="w-4 h-4" />
             Export Result
@@ -339,7 +338,7 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
           </div>
 
           {/* Categories Grid (Main Area) */}
-          <div className="flex-1 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 overflow-y-auto content-start p-6 bg-muted/5">
+          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-6 overflow-y-auto content-start p-6 bg-muted/5">
             {categories.map(category => (
               <DroppableCategory
                 key={category.id}
