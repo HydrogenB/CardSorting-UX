@@ -328,6 +328,7 @@ export default function StudioPage() {
             participantName={
               mode === "edit" ? t("studioPage.previewUser") : participantName
             }
+            hideActionBar
           />
         </main>
       </div>

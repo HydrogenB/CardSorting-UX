@@ -31,6 +31,11 @@ import { useI18n } from '@/contexts/i18n-context';
 interface SortBoardProps {
   mode: 'edit' | 'preview';
   participantName: string;
+  hideActionBar?: boolean;
+  onExportResult?: () => void;
+  onReset?: () => void;
+  onImportSession?: () => void;
+  fileInputRef?: React.RefObject<HTMLInputElement>;
 }
 
 type Items = Record<string, string[]>;
@@ -45,7 +50,7 @@ const dropAnimation: DropAnimation = {
   }),
 };
 
-export function SortBoard({ mode, participantName }: SortBoardProps) {
+export function SortBoard({ mode, participantName, hideActionBar = false }: SortBoardProps) {
   const { study, categories, cards } = useBuilderStore();
   const [items, setItems] = useState<Items>({
     unsorted: [],
@@ -395,37 +400,39 @@ export function SortBoard({ mode, participantName }: SortBoardProps) {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Action Bar */}
-      <div className="mb-4 p-3 flex items-center justify-end gap-2 bg-card rounded-lg border border-border/50 shadow-sm">
-        <input 
-          type="file" 
-          ref={fileInputRef}
-          onChange={handleImportFile}
-          accept=".json"
-          className="hidden" 
-        />
-        <button
-          onClick={handleImportClick}
-           className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-all flex items-center gap-2"
-        >
-          <Upload className="w-4 h-4" />
-          Continue Session
-        </button>
-        <button
-          onClick={handleReset}
-          className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-all flex items-center gap-2"
-        >
-          <RotateCcw className="w-4 h-4" />
-          Reset
-        </button>
-        <button
-          onClick={handleExportResult}
-          className="px-4 py-2 text-sm bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-95 transition-all flex items-center gap-2 shadow-md"
-        >
-          <Download className="w-4 h-4" />
-          Export Result
-        </button>
-      </div>
+      {/* Action Bar - only shown if not hidden */}
+      {!hideActionBar && (
+        <div className="mb-4 p-3 flex items-center justify-end gap-2 bg-card rounded-lg border border-border/50 shadow-sm">
+          <input 
+            type="file" 
+            ref={fileInputRef}
+            onChange={handleImportFile}
+            accept=".json"
+            className="hidden" 
+          />
+          <button
+            onClick={handleImportClick}
+             className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-all flex items-center gap-2"
+          >
+            <Upload className="w-4 h-4" />
+            Continue Session
+          </button>
+          <button
+            onClick={handleReset}
+            className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-all flex items-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" />
+            Reset
+          </button>
+          <button
+            onClick={handleExportResult}
+            className="px-4 py-2 text-sm bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:opacity-95 transition-all flex items-center gap-2 shadow-md"
+          >
+            <Download className="w-4 h-4" />
+            Export Result
+          </button>
+        </div>
+      )}
 
       {/* Sort Board */}
       <DndContext
