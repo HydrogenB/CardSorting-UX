@@ -1,4 +1,5 @@
-import { useDraggable } from '@dnd-kit/core';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import type { Card } from '@/domain/model';
 import { GripVertical } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -8,9 +9,22 @@ interface DraggableCardProps {
 }
 
 export function DraggableCard({ card }: DraggableCardProps) {
-  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: card.id,
   });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    touchAction: 'none' as const,
+  };
 
   const hasImage = !!card.image;
 
@@ -18,8 +32,8 @@ export function DraggableCard({ card }: DraggableCardProps) {
     return (
       <div
         ref={setNodeRef}
+        style={style}
         className="opacity-50 border-2 border-dashed border-primary/40 rounded-xl bg-primary/5 h-[80px]"
-        style={{ touchAction: 'none' }}
       />
     );
   }
@@ -27,7 +41,7 @@ export function DraggableCard({ card }: DraggableCardProps) {
   return (
     <div
       ref={setNodeRef}
-      style={{ touchAction: 'none' }}
+      style={style}
       className={cn(
         'group relative bg-card border rounded-xl p-3',
         'cursor-grab active:cursor-grabbing select-none',

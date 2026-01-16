@@ -1,4 +1,5 @@
 import { useDroppable } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { cn } from '@/lib/utils';
 import { Inbox, FolderOpen, HelpCircle } from 'lucide-react';
 
@@ -10,6 +11,7 @@ interface DroppableCategoryProps {
   variant?: 'default' | 'unsorted' | 'unsure';
   hideHeader?: boolean;
   className?: string;
+  items: string[];
   children: React.ReactNode;
 }
 
@@ -27,6 +29,7 @@ export function DroppableCategory({
   variant = 'default',
   hideHeader = false,
   className,
+  items,
   children 
 }: DroppableCategoryProps) {
   const { isOver, setNodeRef } = useDroppable({ id });
@@ -38,6 +41,7 @@ export function DroppableCategory({
       className={cn(
         'flex flex-col rounded-xl border transition-all duration-300 min-h-[180px] overflow-hidden',
         'shadow-[0_2px_4px_rgba(0,0,0,0.02)]',
+        'bg-background',
         variant === 'unsorted' && 'border-transparent bg-transparent',
         variant === 'unsure' && 'border-amber-200/50 bg-amber-50/30',
         variant === 'default' && 'border-border/60 bg-card/50 hover:bg-card',
@@ -102,7 +106,9 @@ export function DroppableCategory({
       )}
       style={{ position: 'relative', zIndex: 0 }}
       >
-        {children}
+        <SortableContext items={items} strategy={verticalListSortingStrategy}>
+          {children}
+        </SortableContext>
         
         {count === 0 && (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 opacity-0 hover:opacity-100 transition-opacity duration-200 group-hover:opacity-100 pointer-events-none">
